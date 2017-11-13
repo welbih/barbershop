@@ -1,0 +1,109 @@
+<ui:fragment xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:jsf="http://xmlns.jcp.org/jsf">
+           
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">BarberShop</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="dropdown" jsf:rendered="#{usuarioLogadoController.usuario.acesso != 'BARBEIRO'}">
+                <a href="#" class="dropdown-toggle" 
+                   data-toggle="dropdown" 
+                   role="button" 
+                   aria-haspopup="true" 
+                   aria-expanded="false">Usuario <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="cadastroUsuario.html">Cadastrar</a></li>
+                  <li><a href="usuarios.html">Consultar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" 
+                   data-toggle="dropdown" 
+                   role="button" 
+                   aria-haspopup="true" 
+                   aria-expanded="false">Cliente <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="cadastroCliente.html">Cadastrar</a></li>
+                  <li><a href="clientes.html">Consultar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown" jsf:rendered="#{usuarioLogadoController.usuario.acesso != 'BARBEIRO'}">
+                <a href="#" class="dropdown-toggle" 
+                   data-toggle="dropdown" 
+                   role="button" 
+                   aria-haspopup="true" 
+                   aria-expanded="false">Produto <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="cadastroProduto.html">Cadastrar</a></li>
+                  <li><a href="produtos.html">Consultar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown" jsf:rendered="#{usuarioLogadoController.usuario.acesso != 'BARBEIRO'}">
+                <a href="#" class="dropdown-toggle" 
+                   data-toggle="dropdown" 
+                   role="button" 
+                   aria-haspopup="true" 
+                   aria-expanded="false">Serviço <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="cadastroServico.html">Cadastrar</a></li>
+                  <li><a href="servicos.html">Consultar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" 
+                   data-toggle="dropdown" 
+                   role="button" 
+                   aria-haspopup="true" 
+                   aria-expanded="false">Atendimento <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="selecionarCliente.html">Cadastrar</a></li>
+                  <li><a href="atendimentos.html">Consultar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" 
+                   data-toggle="dropdown" 
+                   role="button" 
+                   aria-haspopup="true" 
+                   aria-expanded="false">Consulta<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Vendas</a></li>
+                  <li><a href="#">Lucros</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form jsf:prependId="false">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Usuário: #{usuarioLogadoController.usuario.nome}</a></li>
+                <li><a jsf:action="#{loginController.deslogar()}">Sair</a></li>
+<!--              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </li>-->
+            </ul>
+            </form>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    
+</ui:fragment>

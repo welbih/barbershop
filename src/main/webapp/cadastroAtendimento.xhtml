@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:o="http://omnifaces.org/ui">
+    
+    <head jsf:id="head">
+    	<meta charset="UTF-8" />
+    	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    	<meta content="width=device-width, initial-scale=1" name="viewport" />
+    	<link href="resources/css/bootstrap.css" rel="stylesheet" />
+    	<!--<link href="resources/css/estilo.css" rel="stylesheet" />-->
+        <title>BarberShop - Sistema Gerenciador</title>
+    </head>
+    
+    <body jsf:id="body">
+        
+        <f:metadata>
+            <o:viewParam name="clienteId" value="#{atendimentoController.cliente}"/>
+        </f:metadata>
+        
+        <ui:include src="resources/fragmentos/cabecalho.xhtml"/>
+        
+        <ui:include src="resources/fragmentos/messages.xhtml"/>
+        
+            <div class="container" style="margin-top: 75px">
+
+                <h1 class="text-center">Atendimento</h1>
+                <hr />
+                
+                <div class="row">
+                    <form  class="form-inline"
+                            jsf:prependId="false">
+                        <b>Cliente:</b> #{atendimentoController.cliente.nome}
+                        <br></br>  
+                    
+                            
+                        <div class="form-group text-center" style="margin-top: 10px">
+                        <label for="servico">Serviço</label> <br></br>
+                        <div jsf:id="servicos">
+                        <ui:repeat value="#{atendimentoController.maisServicos}"
+                                var="servico"
+                                varStatus="y">
+                            <div class="form-group">
+                                <select class="form-control"
+                                    jsf:value="#{servico.id}" 
+                                    jsf:id="servico" 
+                                    required="#{!param.paramValidation}"
+                                    jsf:required="#{!param.paramValidation}"
+                                    jsf:requiredMessage="tipo de servico de ser selecionado"
+                                    size="1" >
+                                <f:selectItems itemLabel="#{select.nome}" 
+                                               itemValue="#{select}"
+                                              value="#{enunsController.select}"
+                                              var="select"/>
+                                <f:selectItems value="#{atendimentoController.servicos}"
+                                               itemValue="#{servico.id}"
+                                               var="servico"
+                                               itemLabel="#{servico.nome}" />
+                                        <f:ajax  event="change"
+                                                 listener="#{atendimentoController.calculaProdutosEServicos()}"
+                                                 execute="quantidadeServico" 
+                                                 render="valorTotal valor#{x.index}">
+                                        </f:ajax >
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" size="4" jsf:value="#{servico.valor}" disabled="true" jsf:id="valor#{x.index}">
+<!--                                    <f:convertNumber maxFractionDigits="2" currencySymbol="RS"/>-->
+                                </input>
+<!--                                <h:outputText value="#{ servico.valor}" id="valor#{x.index}"> 
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>-->
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" 
+                                       for="quantidadeServico">
+                                    Quantidade
+                                </label>
+                                <select class="form-control"
+                                    jsf:value="#{servico.quantidade}" 
+                                    jsf:id="quantidadeServico" 
+                                    required="#{!param.paramValidation}"
+                                    jsf:required="#{!param.paramValidation}"
+                                    jsf:requiredMessage="tipo de quantidade de ser selecionado"
+                                    size="1" >
+                                <f:selectItems value="#{enunsController.quantidade}"
+                                               itemValue="#{quantidade.nome}"
+                                               var="quantidade"
+                                               itemLabel="#{quantidade.nome}" />
+                                        <f:ajax  event="change" 
+                                                 listener="#{atendimentoController.calculaProdutosEServicos()}"
+                                                 execute="servico" 
+                                                 render="valorTotal">
+
+                                        </f:ajax>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                 <span>
+                                    <button type="button" 
+                                       class="btn btn-default"
+                                       name="adicionarServico"
+                                       jsf:action="#{atendimentoController.adicionarServico(y.index + 1)}">
+                                       <span class="glyphicon glyphicon-plus" 
+                                             aria-hidden="true">
+                                       </span>
+                                        <f:ajax execute="servicos"
+                                                render="servicos valorTotal">
+                                       </f:ajax>
+                                       <f:param name="paramValidation"
+                                                value="true">
+                                       </f:param>
+                                   </button>
+                               </span>
+                               <span>
+                                   <button type="button" 
+                                       class="btn btn-default"
+                                       name="removerServico"
+                                       jsf:action="#{atendimentoController.removerServico(servico)}"
+                                       jsf:disabled="#{atendimentoController.maisServicos.size() == 1}">
+                                       <span class="glyphicon glyphicon-minus" 
+                                             aria-hidden="true">
+                                       </span>
+                                       <f:ajax execute="servicos"
+                                                render="servicos valorTotal">
+                                       </f:ajax>
+                                       <f:param name="paramValidation"
+                                            value="true">
+                                       </f:param>
+                                   </button>
+                               </span>
+                            </div>
+                        <br></br>
+                    </ui:repeat>
+                        </div>
+                    </div>
+                        <!--<br></br>-->    
+                    <div class="form-group text-center" style="margin-top: 10px">
+                            <label for="produto">Produto</label>
+                            <br></br>
+                            <div jsf:id="produtos">
+                            <ui:repeat value="#{atendimentoController.maisProdutos}"
+                                        var="produto"
+                                        varStatus="a">
+                                <div class="form-group">
+                                    <select class="form-control"
+                                            jsf:value="#{produto.id}" 
+                                        jsf:id="produto" 
+                                        required="#{!param.paramValidation}"
+                                        jsf:required="#{!param.paramValidation}"
+                                        jsf:requiredMessage="tipo de produto deve ser selecionado"
+                                        size="1" >
+                                    <f:selectItems itemLabel="#{select.nome}" 
+                                               itemValue="#{select}"
+                                              value="#{enunsController.select}"
+                                              var="select"/>
+                                    <f:selectItems value="#{atendimentoController.produtos}"
+                                                   itemValue="#{produto.id}"
+                                                   var="produto"
+                                                   itemLabel="#{produto.nome}"/>
+                                        <f:ajax  event="change" 
+                                                 listener="#{atendimentoController.calculaProdutosEServicos()}"
+                                                 execute="quantidadeProduto" 
+                                                 render="valorTotal preco#{y.index} estoque#{y.index}">
+
+                                        </f:ajax>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" size="4" jsf:value="#{produto.valor}" disabled="true" jsf:id="preco#{y.index}">
+    <!--                                    <f:convertNumber maxFractionDigits="2" currencySymbol="RS"/>-->
+                                    </input>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" size="6" jsf:value="#{produto.estoque}" disabled="true" jsf:id="estoque#{y.index}">
+    <!--                                    <f:convertNumber maxFractionDigits="2" currencySymbol="RS"/>-->
+                                    </input>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" 
+                                           for="quantidadeProduto">
+                                        Quantidade
+                                    </label>
+                                    <select class="form-control"
+                                        jsf:value="#{produto.quantidade}" 
+                                        jsf:id="quantidadeProduto" 
+                                        required="#{!param.paramValidation}"
+                                        jsf:required="#{!param.paramValidation}"
+                                        jsf:requiredMessage="quantidade deve ser selecionado"
+                                        size="1" >
+                                    <f:selectItems value="#{enunsController.quantidade}"
+                                                   itemValue="#{quantidade.nome}"
+                                                   var="quantidade"
+                                                   itemLabel="#{quantidade.nome}" />
+                                            <f:ajax  event="change" 
+                                                     listener="#{atendimentoController.calculaProdutosEServicos()}"
+                                                     execute="produto" 
+                                                     render="valorTotal">
+
+                                            </f:ajax>
+                                    </select>
+                                </div> 
+                                <div class="form-group">
+                                    <span>
+                                        <button type="button" 
+                                           class="btn btn-default"
+                                           name="adicionarProduto"
+                                           jsf:action="#{atendimentoController.adicionarProduto(x.index + 1)}">
+                                           <span class="glyphicon glyphicon-plus" 
+                                                 aria-hidden="true">
+                                           </span>
+                                            <f:ajax execute="produtos"
+                                                    render="produtos valorTotal">
+                                           </f:ajax>
+                                           <f:param name="paramValidation"
+                                                    value="true">
+                                           </f:param>
+                                       </button>
+                                    </span>
+                                    <span>
+                                        <button type="button" 
+                                            class="btn btn-default"
+                                            name="removerProduto"
+                                            jsf:action="#{atendimentoController.removerProduto(produto)}"
+                                            jsf:disabled="#{atendimentoController.maisProdutos.size() == 1}">
+                                            <span class="glyphicon glyphicon-minus" 
+                                                  aria-hidden="true">
+                                            </span>
+                                            <f:ajax execute="produtos"
+                                                    render="produtos valorTotal">
+                                            </f:ajax>
+                                            <f:param name="paramValidation"
+                                                 value="true">
+                                            </f:param>
+                                        </button>
+                                    </span>
+                                </div>
+                                <br></br>
+                        </ui:repeat>
+                            </div>
+                    </div><br></br>
+                    <div class="form-group text-center" style="margin-top: 10px">
+                            <label for="tipo">Tipo de Pagamento</label><br></br>
+                                <select class="form-control"
+                                        jsf:value="#{atendimentoController.atendimento.tipoPagamento}" 
+                                    id="tipo" 
+                                    required="true"
+                                    jsf:required="true"
+                                    jsf:requiredMessage="tipo de pagamento de ser selecionado"
+                                    size="1" >
+                                <f:selectItem itemLabel="Selecione o tipo de pagamento" />
+                                <f:selectItems value="#{enunsController.tipoPagamento}"
+                                               itemValue="#{tipo}"
+                                               var="tipo"
+                                               itemLabel="#{tipo.nome}" />
+                                </select>
+                        </div><br></br>
+                        <div class="form-group text-center">
+                            <label for="valortotal">Valor Total</label><br></br>
+                            <h:outputText value="#{atendimentoController.valorTotal}" id="valorTotal">
+                                <f:convertNumber locale="pt_BR" type="currency"/>
+                            </h:outputText>
+                            
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" 
+                                    class="btn btn-primary" 
+                                    jsf:id="salvar"
+                                    jsf:action="#{atendimentoController.salvar()}">
+                                    Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        <ui:include src="resources/fragmentos/scripts.xhtml" />
+    </body>
+</html> 

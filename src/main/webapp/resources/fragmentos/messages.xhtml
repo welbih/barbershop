@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+             xmlns="http://www.w3.org/1999/xhtml" 
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:jsf="http://xmlns.jcp.org/jsf">
+            <div class="alert alert-dismissible 
+                    alert-#{facesContext.maximumSeverity.ordinal == 2 ?
+                              'danger' : 'success'}"
+                 jsf:rendered="#{not empty facesContext.messageList}" role="alert"
+                 style="margin-top: 75px">
+                <div class="container">
+                    <button aria-label="Close" class="close" data-dismiss="alert"
+                            type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h:messages layout="table" />
+                </div>
+            </div>
+</ui:fragment>

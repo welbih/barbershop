@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <head jsf:id="head">
+    	<meta charset="UTF-8" />
+    	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    	<meta content="width=device-width, initial-scale=1" name="viewport" />
+    	<link href="resources/css/bootstrap.css" rel="stylesheet" />
+    	<!--<link href="resources/css/estilo.css" rel="stylesheet" />-->
+        <title>BarberShop - Sistema Gerenciador</title>
+    </head>
+    
+    <body jsf:id="body">
+        
+        <ui:include src="resources/fragmentos/cabecalho.xhtml"/>
+        
+        <ui:include src="resources/fragmentos/messages.xhtml" id="message"/>
+        
+            <div class="container" style="margin-top: 75px">
+                <!--<div class="row">-->
+                <div class="col-md-10 col-md-offset-1">
+                        
+
+                <h1 class="text-center" style="margin-top: 50px">Usuários</h1>
+                <hr />
+                
+                    <form class="form-horizontal" jsf:prependId="false">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" 
+                                   for="nome">
+                                Nome:
+                            </label>
+                            <div class="col-sm-10">
+                                <input class="form-control"
+                                       jsf:id="nome"
+                                       jsf:value="#{usuarioController.usuario.nome}"
+                                       maxlength="100"
+                                       placeholder="Digite um nome"
+                                       type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"
+                                   for="cpf">
+                                CPF:
+                            </label>
+                            <div class="col-sm-10">
+                                <input class="js-cpf form-control" 
+                                       jsf:id="cpf"
+                                       jsf:validatorMessage="Utilize o formato 000.000.000-00 para o CPF."
+                                       jsf:value="#{usuarioController.usuario.cpf}"
+                                       maxlength="14"
+                                       pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                                       placeholder="Digite um CPF"
+                                       type="text" name="cpf">
+                                </input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"
+                                   for="acesso">
+                                Acesso:
+                            </label>
+                            <div class="col-sm-10">
+                                <select class="form-control"
+                                        jsf:id="acesso"
+                                        jsf:value="#{usuarioController.usuario.acesso}"
+                                        size="1">
+                                    <f:selectItem itemLabel="Todos"
+                                                  itemValue="#{null}" />
+                                    <f:selectItems
+                                        itemLabel="#{acesso.nome}"
+                                        itemValue="#{acesso}"
+                                        value="#{enunsController.acesso}" 
+                                        var="acesso" />
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                                    <button class="btn btn-primary"
+                                            jsf:action="#{usuarioController.filtrar()}"
+                                            type="button">
+                                        <f:ajax execute="acesso nome cpf" render="usuarios"/>
+                                        Buscar
+                                    </button>
+                        </div>
+                    </form>
+                <form jsf:prependId="false" id="form-table">
+                <div class="row" jsf:id="usuarios">
+                    <span jsf:rendered="#{usuarioController.usuarios.size() == 0 and usuarioController.camposPreenchidos()}">
+                        <b>Nenhum usuário cadastrado.</b>
+                    </span>
+                    
+                    <h:dataTable value="#{usuarioController.usuarios}" 
+                                 class="table"
+                                 var="usuario" 
+                                 binding="#{usuarioDT}" 
+                                 rows="10" 
+                                 rendered="#{usuarioDT.rowCount != 0}" 
+                                 id="users">
+                        <h:column>
+                            <f:facet name="header">
+                                Nome
+                            </f:facet>
+                            #{usuario.nome}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Acesso
+                            </f:facet>
+                            #{usuario.acesso}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Celular
+                            </f:facet>
+                            #{usuario.celular}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                E-mail
+                            </f:facet>
+                            #{usuario.email}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                CPF
+                            </f:facet>
+                            #{usuario.cpf}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Ações
+                            </f:facet>
+                            <div>
+                                <span>
+                                    <button type="button" 
+                                        class="btn btn-warning"
+                                        name="editarUsuario"
+                                        jsf:outcome="cadastroUsuario">
+                                        <span class="glyphicon glyphicon-pencil"
+                                              aria-hidden="true">
+                                        </span>
+                                        <f:param name="usuarioId"
+                                                 value="#{usuario.id}">
+                                        </f:param>
+                                    </button>
+                                </span>
+                                <span jsf:rendered="#{usuarioLogadoController.usuario.acesso != 'BARBEIRO'}">
+                                    <button type="button" 
+                                        class="btn btn-danger"
+                                        data-target="#modal_remover_usuario#{x.index}"
+                                        data-toggle="modal">
+                                        <span class="glyphicon glyphicon-trash" 
+                                              aria-hidden="true">
+                                        </span>
+                                    </button>
+                                </span>
+                                 <!-- Modal REMOVER convite -->
+                                    <div class="modal fade bs-example-modal-lg" 
+                                         id="modal_remover_usuario#{x.index}" 
+                                         tabindex="-1" 
+                                         role="dialog" 
+                                         aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog modal-sm" 
+                                             role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" 
+                                                            class="close" 
+                                                            data-dismiss="modal" 
+                                                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">Remover Usuário</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="panel-body">
+                                                        Tem certeza que deseja remover o usuário <b>#{usuario.nome}</b>?
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-primary" 
+                                                            jsf:action="#{usuarioController.remover(usuario)}">
+                                                        Sim
+                                                    </button>
+                                                    <button type="button" 
+                                                            class="btn btn-danger" data-dismiss="modal">Não</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!--Fim Modal REMOVER convite -->
+                            </div>
+                        </h:column>
+                        <f:facet name="footer">
+                            <nav>
+                                    <ul class="pager">
+                                        <li class="#{listagemController.isPrimeiraPagina(usuarioDT) ? 'disabled' : ''}">
+                                            <a jsf:action="#{listagemController.retornar(usuarioDT)}"
+                                               jsf:disabled="#{listagemController.isPrimeiraPagina(usuarioDT)}">
+                                                <f:ajax render="users" />
+                                                Anterior
+                                            </a>
+                                        </li>
+                                        <li class="#{listagemController.isUltimaPagina(usuarioDT) ? 'disabled' : ''}">
+                                            <a jsf:action="#{listagemController.avancar(usuarioDT)}"
+                                               jsf:disabled="#{listagemController.isUltimaPagina(usuarioDT)}">
+                                                <f:ajax render="users" />
+                                                Próximo
+                                            </a>
+                                        </li>
+                                    </ul>
+                            </nav>
+                        </f:facet>
+                    </h:dataTable>
+                </div> 
+                </form>
+                </div>        
+                <!--</div>-->
+            </div>
+            
+        <ui:include src="resources/fragmentos/scripts.xhtml" />
+    </body>
+</html> 
