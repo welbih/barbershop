@@ -6,6 +6,7 @@
 package br.com.barbershop.modelo;
 
 import br.com.barbershop.enums.Acesso;
+import br.com.barbershop.security.Senhas;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -20,13 +21,15 @@ import javax.persistence.Enumerated;
 @Entity
 @DiscriminatorValue("USUARIO")
 public class Usuario extends Pessoa implements Serializable{
-    
+
     @Column(length = 14)
     private String cpf;
     private String senha;
     @Enumerated(EnumType.STRING)
     private Acesso acesso;
-
+    
+    public static int TAMANHO_SENHA = 8;
+    
     public String getCpf() {
         return cpf;
     }
@@ -51,4 +54,15 @@ public class Usuario extends Pessoa implements Serializable{
         this.acesso = acesso;
     }
     
+    public boolean isAdministrador() {
+        return getAcesso().ADMINISTRADOR.equals(Acesso.ADMINISTRADOR);
+    }
+    /**
+     * Gera uma nova senha encriptada.
+     * @param novaSenha
+     */
+    public void gerarSenha(String novaSenha)
+    {
+        setSenha(Senhas.criptografar(novaSenha));
+    }
 }

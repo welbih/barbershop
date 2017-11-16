@@ -70,7 +70,7 @@ public class AtendimentoController implements Serializable{
     @Inject
     private ClienteDao clienteDao;
     @Inject
-    private UsuarioLogadoController usuarioLogado;
+    private AcessoController usuarioLogado;
     
     public AtendimentoController() {
         setAtendimento(new Atendimento());
@@ -475,7 +475,7 @@ public class AtendimentoController implements Serializable{
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    public UsuarioLogadoController getUsuarioLogado() {
+    public AcessoController getUsuarioLogado() {
         return usuarioLogado;
     }
     public List<Atendimento> getAtendimentos() {

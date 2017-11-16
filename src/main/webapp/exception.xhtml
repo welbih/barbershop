@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <head jsf:id="head">
+    	<meta charset="UTF-8" />
+    	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    	<meta content="width=device-width, initial-scale=1" name="viewport" />
+    	<link href="resources/css/bootstrap.css" rel="stylesheet" />
+    	<!--<link href="resources/css/estilo.css" rel="stylesheet" />-->
+        <title>BarberShop - Sistema Gerenciador</title>
+    </head>
+    
+    <body jsf:id="body">
+        
+        <ui:include src="resources/fragmentos/messages.xhtml"/>
+        
+            <div class="container" style="margin-top: 75px">
+                <div class="container">
+                    <div class="jumbotron">
+                        <h1>
+                            <small>
+                                <span aria-hidden="true"
+                                      class="glyphicon glyphicon-warning-sign
+                                      text-warning" />
+                            </small>
+                            Ocorreu um erro!
+                        </h1>
+                        <p>
+                            Desculpe-nos, mas a última operação realizada resultou em um
+                            erro. Tente novamente mais tarde. Clique
+                            <a jsf:outcome="login">aqui</a>
+                            para retornar à tela de login.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+        <ui:include src="resources/fragmentos/rodape.xhtml" />
+    </body>
+    
+</html>

@@ -17,7 +17,7 @@
     <body jsf:id="body">
         
         <ui:include src="resources/fragmentos/cabecalho.xhtml"/>
-        
+        <ui:include src="resources/fragmentos/router.xhtml"/>
         <ui:include src="resources/fragmentos/messages.xhtml" id="message"/>
         
             <div class="container" style="margin-top: 75px">
@@ -120,7 +120,7 @@
                                             </f:param>
                                         </button>
                                     </span>
-                                    <span jsf:rendered="#{usuarioLogadoController.usuario.acesso != 'BARBEIRO'}">
+                                    <span jsf:rendered="#{acessoController.usuario.acesso != 'BARBEIRO'}">
                                         <button type="button" 
                                             class="btn btn-danger"
                                             data-target="#modal_remover_cliente#{x.index}"

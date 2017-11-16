@@ -91,6 +91,10 @@ public class ServicoController implements Serializable{
         }
     }
     
+    public boolean campoPreenchido() {
+        return true ? getServico().getNome() != null : false;
+    }
+    
     public Servico getServico() {
         return servico;
     }

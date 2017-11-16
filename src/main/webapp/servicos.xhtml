@@ -17,7 +17,7 @@
     <body jsf:id="body">
         
         <ui:include src="resources/fragmentos/cabecalho.xhtml"/>
-        
+        <ui:include src="resources/fragmentos/router.xhtml"/>
         <ui:include src="resources/fragmentos/messages.xhtml" id="message"/>
         
             <div class="container" style="margin-top: 75px">
@@ -56,8 +56,8 @@
                 
                 <form jsf:prependId="false" jsf:id="servicos">
                 <div class="row">
-                    <span jsf:rendered="#{servicoDT.rowCount == 0}">
-                        <b>Nenhum serviço.</b>
+                    <span jsf:rendered="#{servicoController.servicos.size() == 0 and servicoController.campoPreenchido()}">
+                        <b>Nenhum serviço cadastrado.</b>
                     </span>
                     
                     <h:dataTable value="#{servicoController.servicos}" 

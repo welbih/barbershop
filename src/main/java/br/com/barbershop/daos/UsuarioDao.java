@@ -33,23 +33,35 @@ public class UsuarioDao extends AbstractDao<Usuario>{
 
     public boolean autendicado(String email, String senha) {
 
-            TypedQuery<Usuario> query = getEntityManager().createQuery("select u from Usuario u where u.email = :pEmail and u.senha = :pSenha", Usuario.class)
-                                            .setParameter("pEmail", email)
-                                            .setParameter("pSenha", senha);
+            TypedQuery<Usuario> query = getEntityManager().createQuery("select u from "
+                    + "Usuario u where u.email = :pEmail "
+                    + "and u.senha = :pSenha", Usuario.class)
+                                .setParameter("pEmail", email)
+                                .setParameter("pSenha", senha);
 
             return !query.getResultList().isEmpty();
     }
     
     public Usuario porEmail(String email) {
-        TypedQuery<Usuario> query = getEntityManager().createQuery("select u from Usuario u where u.email = :pEmail", Usuario.class)
-                                            .setParameter("pEmail", email);
+        TypedQuery<Usuario> query = getEntityManager().createQuery("select u from "
+                + "Usuario u where u.email = :pEmail"
+                , Usuario.class)
+                .setParameter("pEmail", email);
         
         return query.getSingleResult();
     }
     
+    public boolean existeEmail(String email) {
+        Query query = getEntityManager().createQuery("select u from "
+                + "Usuario u where u.email = :pEmail", Usuario.class)
+                                        .setParameter("pEmail", email);
+        return !query.getResultList().isEmpty();
+    }
+    
     public boolean existeCpf(String cpf) {
-        Query query = getEntityManager().createQuery("select u from Usuario u where u.cpf = :pCpf", Usuario.class)
-                                            .setParameter("pCpf", cpf);
+        Query query = getEntityManager().createQuery("select u from "
+                + "Usuario u where u.cpf = :pCpf", Usuario.class)
+                                        .setParameter("pCpf", cpf);
         return !query.getResultList().isEmpty();
     }
     

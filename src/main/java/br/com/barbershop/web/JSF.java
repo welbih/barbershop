@@ -5,7 +5,10 @@
  */
 package br.com.barbershop.web;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -53,5 +56,38 @@ public class JSF {
                 message, detail);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
     }
-    
+    /**
+     * Adiciona uma mensagem de erro de validação com o contexto atual.
+     * @param message mensagem de erro
+     */
+    public static void addValidationError(String message)
+    {
+        addValidationError(FacesContext.getCurrentInstance(), message);
+    }
+    /**
+     * Adiciona uma mensagem de erro de validação.
+     * @param fc contexto
+     * @param message mensagem de erro
+     */
+    public static void addValidationError(FacesContext fc, String message)
+    {
+        addErrorMessage(message);
+        fc.validationFailed();
+    }
+    /**
+     * Redireciona para a URL especificada.
+     * @param url URL a navegar
+     */
+    public static void redirect(String url)
+    {
+        try
+        {
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect(url);
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(JSF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

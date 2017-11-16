@@ -17,7 +17,7 @@
     <body jsf:id="body">
         
         <ui:include src="resources/fragmentos/cabecalho.xhtml"/>
-        
+        <ui:include src="resources/fragmentos/router.xhtml"/>
         <ui:include src="resources/fragmentos/messages.xhtml" id="message"/>
         
             <div class="container" style="margin-top: 75px">
@@ -28,7 +28,8 @@
                 <h1 class="text-center" style="margin-top: 50px">Selecionar cliente</h1>
                 <hr />
                 
-                <form class="form-horizontal" jsf:prependId="false">
+                <form class="form-horizontal" 
+                      jsf:prependId="false">
                     <div class="form-group">
                         <label class="col-sm-2 control-label"
                                for="celular">
@@ -37,34 +38,35 @@
                         <div class="col-sm-10">
                             <input class="js-celular form-control" 
                                    jsf:id="celular"
-                                   jsf:validatorMessage="Utilize o formato (99) 99999-9999"
+                                   jsf:required="true"
+                                   jsf:requiredMessage="Celular deve ser informado."
+                                   jsf:validatorMessage="No campo celular utilize o formato (99) 99999-9999"
                                    jsf:value="#{clienteController.cliente.celular}"
                                    maxlength="15"
                                    placeholder="Digite o número"
                                    type="text" name="celular">
+                                <f:validateRegex pattern="\(\d{2}\) \d{5}-\d{4}"/>
                             </input>
                         </div>
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-primary"
-                                jsf:action="#{clienteController.buscarCliente()}"
-                                type="button">
-                            <f:ajax execute="nome celular"
-                                    render="clientes" />
+                                jsf:action="#{clienteController.selecionarCliente()}"
+                                type="submit">
+<!--                            <f:ajax execute="@form message" render="clientes message" />-->
                             Buscar
                         </button>
                     </div>
-                </form>
                 
                 <div class="row" jsf:id="clientes">
-                    <span jsf:rendered="#{clienteController.clientes.size() == 0 and clienteController.camposPreenchidos()}">
-                        <b>Nenhum cliente encontrado.</b>
-                    </span>
+<!--                    <span jsf:rendered="# {clienteController.clientes.size() == 0 and clienteController.camposPreenchidos()}">
+                        <b>Cliente não encontrado.</b>
+                    </span>-->
                     <h:dataTable value="#{clienteController.clientes}" 
                                      class="table"
                                      var="cliente" 
                                      binding="#{clienteDT}" 
-                                     rendered="#{clienteDT.rowCount != 0}"
+                                     rendered="#{clienteController.clientes.size() != 0}"
                                      id="cli">
                         <h:column>
                             <f:facet name="header">
@@ -113,7 +115,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <form class="form-horizontal" jsf:prependId="false">
+                                                    <!--<form class="form-horizontal" jsf:prependId="false">-->
                                                         <button  class="btn btn-primary" 
                                                                  jsf:outcome="cadastroAtendimento.html">
                                                             Sim
@@ -121,16 +123,17 @@
                                                         </button>
                                                         <button type="button" 
                                                                 class="btn btn-danger" data-dismiss="modal">Não</button>
-                                                    </form>
+                                                    <!--</form>-->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                <!--Fim Modal SELECIIAR cliente -->
+                                <!--Fim Modal SELECIONAR cliente -->
                             </div>
                         </h:column>
                     </h:dataTable>
                 </div> 
+                </form>
                 </div>        
                 <!--</div>-->
             </div>

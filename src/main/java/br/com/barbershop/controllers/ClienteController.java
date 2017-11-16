@@ -91,25 +91,29 @@ public class ClienteController implements Serializable{
                 || getCliente().getCelular() != null : false;
     }
     
-    public void buscarCliente()
+    public String selecionarCliente()
     {
-        System.out.println("Nome: " + getCliente().getNome());
-        if (getCliente().getCelular().isEmpty()) {
-            System.out.println("Passando pelo if...");
-            setClientes(getClienteDao().findAll());
+        System.out.println(getCliente().getCelular() == null);
+        if(getCliente().getCelular() == null) {
+            JSF.addErrorMessage("Número dever ser informado.");
+            return null;
         }
-        else{
-            System.out.println("Passando pelo else");
-            List<Cliente> filtro = new ArrayList<>();
-            for (Cliente cliente : getClienteDao().findAll())
-                if ((getCliente().getCelular() ==
-                        null || cliente.getCelular().contains(getCliente().
-                                getCelular()))){
-                    System.out.println("Dentro do if do for...");
-                    filtro.add(cliente);
-                }
-            setClientes(filtro);
+        
+        List<Cliente> filtro = new ArrayList<>();
+        for (Cliente cliente : getClienteDao().findAll())
+            if ((getCliente().getCelular() !=
+                    null && cliente.getCelular().contains(getCliente().
+                            getCelular()))){
+                System.out.println("Dentro do if do for...");
+                filtro.add(cliente);
+            }
+        setClientes(filtro);
+        
+        if(getClientes().size() == 0) {
+            JSF.addErrorMessage("Cliente não encontrado.");
+            return null;
         }
+        return null;
     }
     
     

@@ -26,25 +26,25 @@ public class Autorizador implements PhaseListener{
     public void afterPhase(PhaseEvent event) {
         
 //        System.out.println("Passando pelo autorizador!" + usuarioLogado.getUsuario().getNome());
-        System.out.println("Passando pelo autorizador!" + usuarioLogado.isLogado());
-        System.out.println("Passando pelo autorizador!" + usuarioLogado.getUsuario() == null);
-        FacesContext context = event.getFacesContext();
-        
-        if("/login.xhtml".equals(context.getViewRoot().getViewId())){
-            System.out.println("Já está em login...");
-            return;
-        }
-        
-        if(!usuarioLogado.isLogado()) {
-            NavigationHandler handler = context.getApplication()
-                                .getNavigationHandler();
-            
-            handler.handleNavigation(context, null, 
-                            "login?faces-redirect=true");
-            System.out.println("Redirecionando para Login");
-            
-            context.renderResponse();
-        }
+//        System.out.println("Passando pelo autorizador!" + usuarioLogado.isLogado());
+//        System.out.println("Passando pelo autorizador!" + usuarioLogado.getUsuario() == null);
+//        FacesContext context = event.getFacesContext();
+//        
+//        if("/login.xhtml".equals(context.getViewRoot().getViewId())){
+//            System.out.println("Já está em login...");
+//            return;
+//        }
+//        
+//        if(!usuarioLogado.isLogado()) {
+//            NavigationHandler handler = context.getApplication()
+//                                .getNavigationHandler();
+//            
+//            handler.handleNavigation(context, null, 
+//                            "login?faces-redirect=true");
+//            System.out.println("Redirecionando para Login");
+//            
+//            context.renderResponse();
+//        }
     }
 
     @Override

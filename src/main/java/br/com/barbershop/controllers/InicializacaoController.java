@@ -8,7 +8,7 @@ package br.com.barbershop.controllers;
 import br.com.barbershop.daos.UsuarioDao;
 import br.com.barbershop.enums.Acesso;
 import br.com.barbershop.modelo.Usuario;
-import br.com.barbershop.security.Senha;
+import br.com.barbershop.security.Senhas;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -43,7 +43,7 @@ public class InicializacaoController {
             usuario.setNome("Administrador do Sistema");
             
             String senha = "admin";
-            usuario.setSenha(Senha.criptografar(senha));
+            usuario.setSenha(Senhas.criptografar(senha));
             
             usuarioDao.create(usuario);
         }
@@ -60,7 +60,7 @@ public class InicializacaoController {
             usuario.setNome("Barbeiro do Sistema");
             
             String senha = "barbershop";
-            usuario.setSenha(Senha.criptografar(senha));
+            usuario.setSenha(Senhas.criptografar(senha));
             usuarioDao.create(usuario);
         }
                

@@ -7,7 +7,7 @@ package br.com.barbershop.controllers;
 
 import br.com.barbershop.daos.UsuarioDao;
 import br.com.barbershop.modelo.Usuario;
-import br.com.barbershop.security.Senha;
+import br.com.barbershop.security.Senhas;
 import br.com.barbershop.web.JSF;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class UsuarioController implements Serializable{
     
     public String salvar() {
         if(getUsuario().getId() == null) {
-            setSenha(Senha.criptografar(getUsuario().getCpf().replaceAll("\\.", "").replaceAll("-", "")));
+            setSenha(Senhas.criptografar(getUsuario().getCpf().replaceAll("\\.", "").replaceAll("-", "")));
             getUsuario().setSenha(getSenha());
             getUsuarioDao().create(getUsuario());
             FacesContext.getCurrentInstance().getExternalContext()

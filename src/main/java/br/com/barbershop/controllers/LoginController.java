@@ -8,7 +8,7 @@ package br.com.barbershop.controllers;
 import br.com.barbershop.daos.UsuarioDao;
 import br.com.barbershop.enums.Acesso;
 import br.com.barbershop.modelo.Usuario;
-import br.com.barbershop.security.Senha;
+import br.com.barbershop.security.Senhas;
 import br.com.barbershop.web.JSF;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
@@ -38,7 +38,7 @@ public class LoginController implements Serializable{
     }
     
     public String efetuaLogin() {
-        setSenha(Senha.criptografar(getSenha()));
+        setSenha(Senhas.criptografar(getSenha()));
         boolean loginValido = usuarioDao.autendicado(getEmail(), getSenha());
 
         if(loginValido) {

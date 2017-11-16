@@ -22,7 +22,7 @@
         </f:metadata>
         
         <ui:include src="resources/fragmentos/cabecalho.xhtml"/>
-        
+        <ui:include src="resources/fragmentos/router.xhtml"/>
         <ui:include src="resources/fragmentos/messages.xhtml"/>
         
             <div class="container" style="margin-top: 75px">
@@ -31,8 +31,8 @@
                 <hr />
                 
                 <div class="row">
-                    <form  class="form-inline"
-                            jsf:prependId="false">
+                    <div class="col-md-6 col-md-offset-3">
+                    <form jsf:prependId="false">
                         <b>Cliente:</b> #{atendimentoController.cliente.nome}
                         <br></br>  
                     
@@ -58,22 +58,22 @@
                                 <f:selectItems value="#{atendimentoController.servicos}"
                                                itemValue="#{servico.id}"
                                                var="servico"
-                                               itemLabel="#{servico.nome}" />
-                                        <f:ajax  event="change"
+                                               itemLabel="#{servico.nome} - R$ #{servico.valor}" />
+                                        <f:ajax  event="change" 
                                                  listener="#{atendimentoController.calculaProdutosEServicos()}"
                                                  execute="quantidadeServico" 
                                                  render="valorTotal valor#{x.index}">
                                         </f:ajax >
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" size="4" jsf:value="#{servico.valor}" disabled="true" jsf:id="valor#{x.index}">
-<!--                                    <f:convertNumber maxFractionDigits="2" currencySymbol="RS"/>-->
+<!--                            <div class="form-group">
+                                <input class="form-control" type="text" size="4" jsf:value="# {servico.valor}" disabled="true" jsf:id="valor# {x.index}">
+                                    <f:convertNumber maxFractionDigits="2" currencySymbol="RS"/>
                                 </input>
-<!--                                <h:outputText value="#{ servico.valor}" id="valor#{x.index}"> 
+                                <h:outputText value="# { servico.valor}" id="valor# {x.index}"> 
                                     <f:convertNumber type="currency" locale="pt_BR"/>
-                                </h:outputText>-->
-                            </div>
+                                </h:outputText>
+                            </div>-->
                             <div class="form-group">
                                 <label class="sr-only" 
                                        for="quantidadeServico">
@@ -160,7 +160,7 @@
                                     <f:selectItems value="#{atendimentoController.produtos}"
                                                    itemValue="#{produto.id}"
                                                    var="produto"
-                                                   itemLabel="#{produto.nome}"/>
+                                                   itemLabel="#{produto.nome} - R$ #{produto.valorUnitario} - Estoque: #{produto.quantidade}" />
                                         <f:ajax  event="change" 
                                                  listener="#{atendimentoController.calculaProdutosEServicos()}"
                                                  execute="quantidadeProduto" 
@@ -169,16 +169,16 @@
                                         </f:ajax>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" size="4" jsf:value="#{produto.valor}" disabled="true" jsf:id="preco#{y.index}">
+                                <!--<div class="form-group">-->
+                                    <!--<input class="form-control" type="text" size="4" jsf:value="# {produto.valor}" disabled="true" jsf:id="preco# {y.index}">-->
     <!--                                    <f:convertNumber maxFractionDigits="2" currencySymbol="RS"/>-->
-                                    </input>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" size="6" jsf:value="#{produto.estoque}" disabled="true" jsf:id="estoque#{y.index}">
+                                    <!--</input>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<input class="form-control" type="text" size="6" jsf:value="# {produto.estoque}" disabled="true" jsf:id="estoque# {y.index}">-->
     <!--                                    <f:convertNumber maxFractionDigits="2" currencySymbol="RS"/>-->
-                                    </input>
-                                </div>
+                                    <!--</input>-->
+                                <!--</div>-->
                                 <div class="form-group">
                                     <label class="sr-only" 
                                            for="quantidadeProduto">
@@ -238,10 +238,9 @@
                                         </button>
                                     </span>
                                 </div>
-                                <br></br>
                         </ui:repeat>
                             </div>
-                    </div><br></br>
+                    </div><br/>
                     <div class="form-group text-center" style="margin-top: 10px">
                             <label for="tipo">Tipo de Pagamento</label><br></br>
                                 <select class="form-control"
@@ -274,6 +273,7 @@
                             </button>
                         </div>
                     </form>
+                    </div>
                 </div>
             </div>
             

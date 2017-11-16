@@ -5,6 +5,10 @@
  */
 package br.com.barbershop.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  *
  * @author Sniper
@@ -27,5 +31,16 @@ public enum Acesso {
         this.nome = nome;
     }
     
+    /**
+     * Retorna os acessos, exceto o informado.
+     * @param acesso a retirar
+     * @return conjunto de acessos exceto o informado
+     */
+    public static Acesso[] exceto(Acesso acesso)
+    {
+        Collection<Acesso> acessos = new ArrayList<>(Arrays.asList(values()));
+        acessos.remove(acesso);
+        return acessos.toArray(new Acesso[0]);
+    }
     
 }
