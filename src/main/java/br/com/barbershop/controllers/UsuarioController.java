@@ -6,6 +6,7 @@
 package br.com.barbershop.controllers;
 
 import br.com.barbershop.daos.UsuarioDao;
+import br.com.barbershop.enums.Acesso;
 import br.com.barbershop.modelo.Usuario;
 import br.com.barbershop.security.Senhas;
 import br.com.barbershop.web.JSF;
@@ -26,7 +27,8 @@ import javax.inject.Named;
 public class UsuarioController implements Serializable{
     
     private Usuario usuario;
-    private String senha;
+    private String senha, cpf, email, nome;
+    private Acesso acesso;
     
     private List<Usuario> usuarios;
     
@@ -40,11 +42,11 @@ public class UsuarioController implements Serializable{
     
     public void filtrar()
     {
-        System.out.println("Nome: " + getUsuario().getNome());
-        System.out.println("CPF: " + getUsuario().getCpf());
-        System.out.println("Acesso: " + getUsuario().getAcesso());
-        if (getUsuario().getNome() == null && getUsuario().getCpf() == null
-                    && getUsuario().getAcesso() == null) {
+        System.out.println("Nome: " + getNome());
+        System.out.println("CPF: " + getCpf());
+        System.out.println("Acesso: " + getAcesso());
+        if (getNome() == null && getCpf() == null
+                    && getAcesso() == null) {
             System.out.println("Passando pelo if...");
             setUsuarios(getUsuarioDao().findAll());
         }
@@ -52,13 +54,12 @@ public class UsuarioController implements Serializable{
             System.out.println("Passando pelo else");
             List<Usuario> filtro = new ArrayList<>();
             for (Usuario usuario : getUsuarioDao().findAll())
-                if ((getUsuario().getNome() == null || usuario.getNome().
-                        toLowerCase().contains(getUsuario().getNome().
-                                toLowerCase())) && (getUsuario().getCpf() ==
-                        null || usuario.getCpf().contains(getUsuario().
-                                getCpf())) && (getUsuario().getAcesso() ==
-                        null || usuario.getAcesso().equals(getUsuario().
-                                getAcesso()))){
+                if ((getNome() == null || usuario.getNome().
+                        toLowerCase().contains(getNome().
+                                toLowerCase())) && (getCpf() ==
+                        null || usuario.getCpf().contains(
+                                getCpf())) && (getAcesso() ==
+                        null || usuario.getAcesso().equals(getAcesso()))){
                     System.out.println("Dentro do if do for...");
                     filtro.add(usuario);
                 }
@@ -67,6 +68,15 @@ public class UsuarioController implements Serializable{
     }
     
     public String salvar() {
+        if(getUsuarioDao().existeEmail(getUsuario().getEmail())) 
+            JSF.addValidationError("O sistema já possui um usuário com esse E-mail.");
+        
+        if(getUsuarioDao().existeCpf(getUsuario().getCpf()) && getUsuario().getId() == null) 
+            JSF.addValidationError("O sistema já possui um usuário com esse CPF.");
+
+        if(JSF.hasErrors()) 
+            return null;
+        
         if(getUsuario().getId() == null) {
             setSenha(Senhas.criptografar(getUsuario().getCpf().replaceAll("\\.", "").replaceAll("-", "")));
             getUsuario().setSenha(getSenha());
@@ -93,9 +103,9 @@ public class UsuarioController implements Serializable{
     }
     
     public boolean camposPreenchidos() {
-        return true ? getUsuario().getNome() != null 
-                    || getUsuario().getCpf() != null 
-                    || getUsuario().getAcesso() != null : false;
+        return true ? getNome() != null 
+                    || getCpf() != null 
+                    || getAcesso() != null : false;
     }
     
     public Usuario getUsuario() {
@@ -120,6 +130,38 @@ public class UsuarioController implements Serializable{
 
     public List<Usuario> getUsuarios() {
         return usuarios;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Acesso getAcesso() {
+        return acesso;
+    }
+
+    public void setAcesso(Acesso acesso) {
+        this.acesso = acesso;
     }
 
     public void setUsuarios(List<Usuario> usuarios) {

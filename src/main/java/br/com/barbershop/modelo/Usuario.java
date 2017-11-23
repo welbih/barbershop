@@ -13,6 +13,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import org.hibernate.validator.constraints.br.CPF;
 
 /**
  *
@@ -22,6 +23,7 @@ import javax.persistence.Enumerated;
 @DiscriminatorValue("USUARIO")
 public class Usuario extends Pessoa implements Serializable{
 
+    @CPF(message = "CPF inválido, informe um CPF válido.")
     @Column(length = 14)
     private String cpf;
     private String senha;

@@ -17,20 +17,24 @@ import javax.faces.convert.FacesConverter;
  *
  * @author darkSniper
  */
-@FacesConverter(value = "localDateConverter")
-public class LocalDateConverter implements Converter{
+@FacesConverter(forClass = LocalDate.class)
+public class LocalDateConverter2 implements Converter{
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        System.out.println("Formato da data: " + value);
         Locale BRAZIL = new Locale("pt", "BR");
-        System.out.println("Passando pelo converter1" + value);
-        return LocalDate.parse(value, DateTimeFormatter.ofPattern("dd/MM/yyyy").withLocale(BRAZIL));
+        if(value != null && !value.isEmpty())
+            return LocalDate.parse(value, DateTimeFormatter.ofPattern("dd/MM/yyyy").withLocale(BRAZIL));
+        return null;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         LocalDate dateValue = (LocalDate) value;
-        return dateValue.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        if(value != null)
+            return dateValue.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return value.toString();
     }
     
 }

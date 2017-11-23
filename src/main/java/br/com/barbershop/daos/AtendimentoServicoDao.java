@@ -6,9 +6,12 @@
 package br.com.barbershop.daos;
 
 import br.com.barbershop.modelo.AtendimentoServico;
+import br.com.barbershop.modelo.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -32,5 +35,12 @@ public class AtendimentoServicoDao extends AbstractDao<AtendimentoServico>{
     public EntityManager getManager() {
         return manager;
     }
-    
+    public List<AtendimentoServico> porVenda(Long vendaId) {
+        TypedQuery<AtendimentoServico> query = getEntityManager().createQuery("select a from "
+                + "AtendimentoServico a where a.venda.id = :vendaId"
+                , AtendimentoServico.class)
+                .setParameter("vendaId", vendaId);
+        
+        return query.getResultList();
+    }
 }

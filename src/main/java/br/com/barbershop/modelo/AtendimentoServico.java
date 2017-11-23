@@ -36,6 +36,7 @@ public class AtendimentoServico implements Serializable {
 
     public AtendimentoServico() {
         setServico(new Servico());
+        setVenda(new Atendimento());
     }
 
     public Long getId() {

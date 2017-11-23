@@ -37,7 +37,7 @@
                             <div class="col-sm-10">
                                 <input class="form-control"
                                        jsf:id="nome"
-                                       jsf:value="#{usuarioController.usuario.nome}"
+                                       jsf:value="#{usuarioController.nome}"
                                        maxlength="100"
                                        placeholder="Digite um nome"
                                        type="text" />
@@ -52,7 +52,7 @@
                                 <input class="js-cpf form-control" 
                                        jsf:id="cpf"
                                        jsf:validatorMessage="Utilize o formato 000.000.000-00 para o CPF."
-                                       jsf:value="#{usuarioController.usuario.cpf}"
+                                       jsf:value="#{usuarioController.cpf}"
                                        maxlength="14"
                                        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
                                        placeholder="Digite um CPF"
@@ -68,7 +68,7 @@
                             <div class="col-sm-10">
                                 <select class="form-control"
                                         jsf:id="acesso"
-                                        jsf:value="#{usuarioController.usuario.acesso}"
+                                        jsf:value="#{usuarioController.acesso}"
                                         size="1">
                                     <f:selectItem itemLabel="Todos"
                                                   itemValue="#{null}" />

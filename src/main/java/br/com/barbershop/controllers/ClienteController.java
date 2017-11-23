@@ -27,6 +27,8 @@ public class ClienteController implements Serializable{
     
     private Cliente cliente;
     
+    private String nome, celular;
+    
     private List<Cliente> clientes;
     
     @Inject
@@ -38,6 +40,11 @@ public class ClienteController implements Serializable{
     }
     
     public String salvar() {
+        if(getClienteDao().existeEmail(getCliente().getEmail()) && getCliente().getId() == null) {
+            JSF.addErrorMessage("O sistema já possui um cliente com esse e-mail.");
+            return null;
+        }
+            
         if(getCliente().getId() == null) {
             getClienteDao().create(getCliente());
             FacesContext.getCurrentInstance().getExternalContext()
@@ -64,8 +71,8 @@ public class ClienteController implements Serializable{
     
     public void filtrar()
     {
-        System.out.println("Nome: " + getCliente().getNome());
-        if (getCliente().getNome().isEmpty() && getCliente().getCelular().isEmpty()) {
+        System.out.println("Nome: " + getNome());
+        if (getNome().isEmpty() && getCelular().isEmpty()) {
             System.out.println("Passando pelo if...");
             setClientes(getClienteDao().findAll());
         }
@@ -73,10 +80,10 @@ public class ClienteController implements Serializable{
             System.out.println("Passando pelo else");
             List<Cliente> filtro = new ArrayList<>();
             for (Cliente cliente : getClienteDao().findAll())
-                if ((getCliente().getNome() == null || cliente.getNome().
-                        toLowerCase().contains(getCliente().getNome().
-                                toLowerCase())) && (getCliente().getCelular() ==
-                        null || cliente.getCelular().contains(getCliente().
+                if ((getNome() == null || cliente.getNome().
+                        toLowerCase().contains(getNome().
+                                toLowerCase())) && (getCelular() ==
+                        null || cliente.getCelular().contains(
                                 getCelular()))){
                     System.out.println("Dentro do if do for...");
                     filtro.add(cliente);
@@ -140,4 +147,22 @@ public class ClienteController implements Serializable{
     public boolean isEditando() {
         return getCliente().getId() != null;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+    
+    
 }

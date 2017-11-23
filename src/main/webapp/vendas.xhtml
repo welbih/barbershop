@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <head jsf:id="head">
+    	<meta charset="UTF-8" />
+    	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    	<meta content="width=device-width, initial-scale=1" name="viewport" />
+    	<link href="resources/css/bootstrap.css" rel="stylesheet" />
+        <title>BarberShop - Sistema Gerenciador</title>
+    </head>
+    
+    <body jsf:id="body">
+        
+        <ui:include src="resources/fragmentos/cabecalho.xhtml"/>
+        <ui:include src="resources/fragmentos/router.xhtml"/>
+        <ui:include src="resources/fragmentos/messages.xhtml"/>
+        
+            <div class="container" style="margin-top: 75px">
+                <div class="col-md-6 col-md-offset-2">
+                        
+
+                <h1 class="text-center" style="margin-top: 50px">Vendas</h1>
+                <hr />
+                
+                    <form jsf:prependId="false">
+                        <div class="form-group">
+                            <label for="dataInicial">
+                                Data Inicial
+                            </label>
+                            <div>
+                                <input class="form-control js-data"
+                                       jsf:id="dataInicial"
+                                       jsf:value="#{consultaController.dataI}"
+                                       jsf:required="true"
+                                       jsf:requiredMessage="Data Inicial deve ser informado."
+                                       jsf:validatorMessage="Data Inicial deve seguir o seguinte padrão dd/MM/yyyy"
+                                       placeholder="dd/MM/yyyy"
+                                       type="text" >
+                                    <f:validateRegex pattern="\d{2}[- /.]\d{2}[- /.]\d{4}" />
+                                </input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dataFinal">
+                                Data Final
+                            </label>
+                            <div>
+                                <input class="form-control js-data"
+                                       jsf:id="dataFinal"
+                                       jsf:value="#{consultaController.dataF}"
+                                       jsf:required="true"
+                                       jsf:requiredMessage="Data Final deve ser informado."
+                                       jsf:validatorMessage="Data Final deve seguir o seguinte formato dd/MM/yyyy"
+                                       placeholder="dd/MM/yyyy"
+                                       type="text" >
+                                    <f:validateRegex pattern="\d{2}[- /.]\d{2}[- /.]\d{4}" />
+                                </input>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary"
+                                    jsf:action="#{consultaController.vendas()}"
+                                    type="submit">
+                                Buscar
+                            </button>
+                        </div>
+                        
+                        <div class="form-group" jsf:id="valorTotal">
+                            <label for="valor">Total</label>
+                            <div>
+                                <h:outputText value="#{consultaController.valorTotalVendas}" id="valor">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            
+                            <label for="lucro">Lucro</label>
+                            <div>
+                                <h:outputText value="#{consultaController.valorLucro}" id="lucro">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        <ui:include src="resources/fragmentos/scripts.xhtml" />
+    </body>
+</html> 

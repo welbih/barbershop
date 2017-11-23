@@ -75,6 +75,14 @@ public class JSF {
         fc.validationFailed();
     }
     /**
+     * Retorna se há erros no contexto do JSF.
+     * @return false caso não haja erros ou true caso haja
+     */
+    public static boolean hasErrors()
+    {
+        return FacesContext.getCurrentInstance().isValidationFailed();
+    }
+    /**
      * Redireciona para a URL especificada.
      * @param url URL a navegar
      */

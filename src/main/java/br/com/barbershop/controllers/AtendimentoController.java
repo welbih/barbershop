@@ -44,16 +44,19 @@ public class AtendimentoController implements Serializable{
     private AtendimentoProduto atendimentoProduto;
     private AtendimentoServico atendimentoServico;
     private Cliente cliente;
-    
-    private LocalDate dataInicial;
-    private LocalDate dataFinal;
+    private Long atendimentoId;
+
+    private String nomeCliente, nomeUsuario;
     
     private long clienteId;
     private BigDecimal valorTotal;
     private BigDecimal valorServico;
     
+    
     private List<Map<String, String>> maisServicos;
     private List<Map<String, String>> maisProdutos;
+    private List<AtendimentoServico> vendaServicos;
+    private List<AtendimentoProduto> vendaProdutos;
     
     private List<Atendimento> atendimentos;
     
@@ -83,9 +86,15 @@ public class AtendimentoController implements Serializable{
         adicionarServico(0);
         adicionarProduto(0);
         setAtendimentos(new ArrayList<>());
+        setVendaServicos(new ArrayList<>());
+        setVendaProdutos(new ArrayList<>());
     }
     
     public String salvar() {
+        if(!contemProdutoEServico()) {
+            JSF.addErrorMessage("O atendimento deve ter um serviço ou produto.");
+            return "";
+        }
         if(!validarServicoEProduto()){
             return "";
         }
@@ -104,6 +113,35 @@ public class AtendimentoController implements Serializable{
         return "selecionarCliente?faces-redirect=true";
     }
     
+    public void filtrar()
+    {
+        System.out.println("Cliente: " + getNomeCliente());
+        System.out.println("Cliente: " + getNomeUsuario());
+        if (getNomeCliente().isEmpty() && getNomeUsuario().isEmpty()) {
+            System.out.println("Passando pelo if...");
+            setAtendimentos(getAtendimentoDao().findAll());
+        }
+        else{
+            System.out.println("Passando pelo else");
+            List<Atendimento> filtro = new ArrayList<>();
+            for (Atendimento atendimento : getAtendimentoDao().findAll())
+                if ((getNomeCliente()== null || atendimento.getCliente().getNome().
+                        toLowerCase().contains(getNomeCliente().
+                                toLowerCase())) && (getNomeUsuario() ==
+                        null || atendimento.getUsuario().getNome().toLowerCase().contains(getNomeUsuario()))){
+                    System.out.println("Dentro do if do for...");
+                    filtro.add(atendimento);
+                }
+            setAtendimentos(filtro);
+        }
+        System.out.println(getClientes().size());
+    }
+    
+    public boolean camposPreenchidos() {
+        return true? getNomeUsuario()!= null 
+                || getNomeCliente()!= null : false;
+    }
+    
     public String remover(Atendimento atendimento) {
         getAtendimentoDao().remove(atendimento);
         FacesContext.getCurrentInstance().getExternalContext()
@@ -116,11 +154,11 @@ public class AtendimentoController implements Serializable{
         return valorTotal;
     }
     
-        public void filtrar()
-    {
-        System.out.println("Data Inicial: " + getDataInicial());
-        System.out.println("Data Final: " + getDataFinal());
-    }
+//        public void filtrar()
+//    {
+//        System.out.println("Data Inicial: " + getDataInicial());
+//        System.out.println("Data Final: " + getDataFinal());
+//    }
     
 //    private boolean nenhumServicoEProduto() {
 //        for(Map<String, String> nome : getMaisProdutos()){
@@ -291,18 +329,18 @@ public class AtendimentoController implements Serializable{
                         validacaoOk = false;
                     }
                 }
-            if(nome.get("id").equals("Null") && nome.get("quantidade").equals("Selecione a Quantidade")) {
-                System.out.println("Entrando no if");
-                for(Map<String, String> nomeS : getMaisServicos()){
-                    System.out.println("Entrando no segundo for");
-                    if(nomeS.get("id").equals("Null") && nomeS.get("quantidade").equals("Selecione a Quantidade")) {
-                        JSF.addErrorMessage("O atendimento deve conter um serviço ou produto.");
-                        validacaoOk = false;
-                    }
-                }                
-            }
         }
         return validacaoOk;
+    }
+    
+    public boolean contemProdutoEServico() {
+        for(Map<String, String> nome : getMaisProdutos()){
+            for(Map<String, String> nomeS : getMaisServicos()){
+                if(!nomeS.get("id").equals("Null") || !nome.get("id").equals("Null")) 
+                    return true;
+            }                
+        }
+        return false;
     }
     
     public void adicionarServicoEProdutoAoAtendimento() {
@@ -348,6 +386,22 @@ public class AtendimentoController implements Serializable{
                     setAtendimentoProduto(new AtendimentoProduto());
                 }
         }
+    }
+    
+    public void buscarServicos(Long idVenda) {
+        setVendaServicos(getAtendimentoServicoDao().porVenda(idVenda));
+        System.out.println(getVendaServicos().size());
+        getVendaServicos().forEach(a ->
+                System.out.println(a.getServico().getNome())
+        );
+    }
+    
+    public void buscarProdutos(Long idVenda) {
+        setVendaProdutos(getAtendimentoProdutoDao().porVenda(idVenda));
+        System.out.println(getVendaProdutos().size());
+        getVendaProdutos().forEach(a ->
+                System.out.println(a.getProduto().getNome())
+        );
     }
     
     public void calculaProdutosEServicos(){
@@ -479,15 +533,39 @@ public class AtendimentoController implements Serializable{
         return usuarioLogado;
     }
     public List<Atendimento> getAtendimentos() {
-        return getAtendimentoDao().findAll();
+        return atendimentos;
     }
     public void setAtendimentos(List<Atendimento> atendimentos) {
         this.atendimentos = atendimentos;
     }
-    public LocalDate getDataInicial() {
-        return dataInicial;
+    public Long getAtendimentoId() {
+        return atendimentoId;
     }
-    public LocalDate getDataFinal() {
-        return dataFinal;
+    public void setAtendimentoId(Long atendimentoId) {
+        this.atendimentoId = atendimentoId;
+    }
+    public List<AtendimentoServico> getVendaServicos() {
+        return vendaServicos;
+    }
+    public void setVendaServicos(List<AtendimentoServico> vendaServicos) {
+        this.vendaServicos = vendaServicos;
+    }
+    public List<AtendimentoProduto> getVendaProdutos() {
+        return vendaProdutos;
+    }
+    public void setVendaProdutos(List<AtendimentoProduto> vendaProdutos) {
+        this.vendaProdutos = vendaProdutos;
+    }
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 }

@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
@@ -31,6 +32,7 @@ public abstract class Pessoa implements Serializable {
     @Column(length = 50)
     private String nome;
     @Column(length = 50)
+    @Email(message = "E-mail inválido, digite novamente.")
     private String email;
     @Column(length = 15)
     private String celular;
