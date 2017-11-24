@@ -40,8 +40,8 @@ public class ClienteController implements Serializable{
     }
     
     public String salvar() {
-        if(getClienteDao().existeEmail(getCliente().getEmail()) && getCliente().getId() == null) {
-            JSF.addErrorMessage("O sistema já possui um cliente com esse e-mail.");
+        if(getClienteDao().porCelular(getCliente().getCelular()) && getCliente().getId() == null) {
+            JSF.addErrorMessage("O sistema já possui um cliente com esse número de celular.");
             return null;
         }
             

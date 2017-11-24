@@ -9,6 +9,7 @@ import br.com.barbershop.modelo.Produto;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -33,4 +34,10 @@ public class ProdutoDao extends AbstractDao<Produto>{
         return manager;
     }
     
+    public boolean porNome(String nome) {
+        Query query = getEntityManager().createQuery("select p from "
+                + "Produto p where p.nome = :nome", Produto.class)
+                                        .setParameter("nome", nome);
+        return !query.getResultList().isEmpty();
+    }
 }

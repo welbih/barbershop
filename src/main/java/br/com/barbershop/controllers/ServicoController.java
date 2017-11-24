@@ -48,6 +48,12 @@ public class ServicoController implements Serializable{
     }
 
     public String salvar() {
+        if(getServicoDao().porNome(getServico().getNome().toLowerCase()) && getServico().getId() == null)
+            JSF.addValidationError("Já existe um serviço com esse nome.");
+        
+        if(JSF.hasErrors())
+            return null;
+        
         if(getServico().getId() == null) {
             getServicoDao().create(getServico());
             FacesContext.getCurrentInstance().getExternalContext()

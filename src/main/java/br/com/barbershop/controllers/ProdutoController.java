@@ -37,6 +37,12 @@ public class ProdutoController implements Serializable{
     }
     
     public String salvar() {
+        if(getProdutoDao().porNome(getProduto().getNome().toLowerCase()) && getProduto().getId() == null)
+            JSF.addValidationError("Já existe um produto com esse nome.");
+        
+        if(JSF.hasErrors())
+            return null;
+        
         if(produto.getId() == null){
             getProdutoDao().create(getProduto());
             FacesContext.getCurrentInstance().getExternalContext()

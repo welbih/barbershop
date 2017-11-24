@@ -68,7 +68,7 @@ public class UsuarioController implements Serializable{
     }
     
     public String salvar() {
-        if(getUsuarioDao().existeEmail(getUsuario().getEmail())) 
+        if(getUsuarioDao().existeEmail(getUsuario().getEmail()) && getUsuario().getId() == 0) 
             JSF.addValidationError("O sistema já possui um usuário com esse E-mail.");
         
         if(getUsuarioDao().existeCpf(getUsuario().getCpf()) && getUsuario().getId() == null) 

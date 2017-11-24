@@ -42,4 +42,11 @@ public class ClienteDao extends AbstractDao<Cliente>{
         return !query.getResultList().isEmpty();
     }
     
+    public boolean porCelular(String celular) {
+        Query query = getEntityManager().createQuery("select c from "
+                + "Cliente c where c.celular = :celular", Cliente.class)
+                                        .setParameter("celular", celular);
+        return !query.getResultList().isEmpty();
+    }
+    
 }

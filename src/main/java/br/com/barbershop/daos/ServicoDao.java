@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -34,4 +35,10 @@ public class ServicoDao extends AbstractDao<Servico>{
         return manager;
     }
     
+    public boolean porNome(String nome) {
+        Query query = getEntityManager().createQuery("select s from "
+                + "Servico s where s.nome = :nome", Servico.class)
+                                        .setParameter("nome", nome);
+        return !query.getResultList().isEmpty();
+    }
 }
