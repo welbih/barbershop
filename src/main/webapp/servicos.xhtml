@@ -45,6 +45,7 @@
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-primary"
+                                jsf:id="buscar"
                                 jsf:action="#{servicoController.filtrar()}"
                                 type="button">
                             <f:ajax execute="nome"
@@ -101,7 +102,7 @@
                                 <span jsf:rendered="#{usuarioLogadoController.usuario.acesso != 'BARBEIRO'}">
                                     <button type="button" 
                                         class="btn btn-danger"
-                                        data-target="#modal_remover_servico#{x.index}"
+                                        data-target="#modal_remover_servico#{servicoDT.rowIndex}"
                                         data-toggle="modal">
                                         <span class="glyphicon glyphicon-trash" 
                                               aria-hidden="true">
@@ -110,7 +111,7 @@
                                 </span>
                                  <!-- Modal REMOVER convite -->
                                     <div class="modal fade bs-example-modal-lg" 
-                                         id="modal_remover_servico#{x.index}" 
+                                         id="modal_remover_servico#{servicoDT.rowIndex}" 
                                          tabindex="-1" 
                                          role="dialog" 
                                          aria-labelledby="myModalLabel">
@@ -131,8 +132,10 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button  class="btn btn-primary" 
+                                                             jsf:id="remover"
                                                              jsf:action="#{servicoController.removerServico(servico)}">Sim</button>
                                                     <button type="button" 
+                                                            jsf:id="cancelar"
                                                             class="btn btn-danger" data-dismiss="modal">Não</button>
                                                 </div>
                                             </div>

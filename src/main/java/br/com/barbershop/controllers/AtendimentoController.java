@@ -230,9 +230,9 @@ public class AtendimentoController implements Serializable{
             }
             if(getMaisProdutos().get(i).get("id") != null && !getMaisProdutos().get(i).get("id").equals("Null")) {
                 Produto produto = getProdutoDao().find(Long.valueOf(getMaisProdutos().get(i).get("id")));
-                int estoque = produto.getQuantidade();
+                int estoque = produto.getQuantidadeEstoque();
                 String quantidadeEstoque = "Estoque " + estoque;
-                BigDecimal valorUnitario = produto.getValorUnitario();
+                BigDecimal valorUnitario = produto.getValor();
                 DecimalFormat df = new DecimalFormat("¤ #,###,##0.00");
                 String valor = df.format(valorUnitario);
                 
@@ -324,7 +324,7 @@ public class AtendimentoController implements Serializable{
                     
                     Produto produto = getProdutoDao().find(Long.valueOf(nome.get("id")));
                     Integer quantidadeSelecionada = Integer.valueOf(nome.get("quantidade"));
-                    if(quantidadeSelecionada > produto.getQuantidade()) {
+                    if(quantidadeSelecionada > produto.getQuantidadeEstoque()) {
                         JSF.addErrorMessage(produto.getNome() + " não possui essa quantidade em estoque");
                         validacaoOk = false;
                     }
@@ -370,9 +370,9 @@ public class AtendimentoController implements Serializable{
                 if(!nome.get("id").equals("Null") && !nome.get("quantidade").equals("Selecione a Quantidade")) {
                     
                     Produto produto = getProdutoDao().find(Long.valueOf(nome.get("id")));
-                    BigDecimal valorUnitario = produto.getValorUnitario();
+                    BigDecimal valorUnitario = produto.getValor();
                     Integer quantidade = Integer.valueOf(nome.get("quantidade"));
-                    produto.setQuantidade(produto.getQuantidade() - quantidade);
+                    produto.setQuantidadeEstoque(produto.getQuantidadeEstoque()- quantidade);
                     
                     getProdutoDao().edit(produto);
                 
@@ -415,7 +415,7 @@ public class AtendimentoController implements Serializable{
             if(!nome.get("id").equals("Null") && !nome.get("quantidade").equals("Selecione a Quantidade")) {
                 System.out.println(nome.get("id") + " qtd: " + nome.get("quantidade"));
                 
-                BigDecimal valorUnitario = getProdutoDao().find(Long.valueOf(nome.get("id"))).getValorUnitario();
+                BigDecimal valorUnitario = getProdutoDao().find(Long.valueOf(nome.get("id"))).getValor();
                 Integer quantidade = Integer.valueOf(nome.get("quantidade"));
                 BigDecimal quantidadeBigDecimal = BigDecimal.valueOf(quantidade);
                 BigDecimal valorParcial = valorUnitario.multiply(quantidadeBigDecimal);

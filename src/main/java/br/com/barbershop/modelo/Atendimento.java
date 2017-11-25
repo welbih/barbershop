@@ -38,7 +38,7 @@ public class Atendimento implements Serializable {
     private Usuario usuario;
     @ManyToOne
     private Cliente cliente;
-    @Column(precision = 5, scale = 2, name = "valor_total")
+    @Column(precision = 7, scale = 2, name = "valor_total")
     private BigDecimal valorTotal;
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_pagamento")

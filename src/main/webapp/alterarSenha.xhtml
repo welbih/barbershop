@@ -32,6 +32,7 @@
                                 <label for="senhaAtual">Senha Atual</label>
                                 <input  class="form-control"
                                         jsf:id="senhaAtual"
+                                        placeholder="Digite a senha atual"
                                         type="password"
                                         jsf:required="true"
                                         jsf:requiredMessage="Senha atual de ser informado."
@@ -43,7 +44,7 @@
                                 <input type="password" 
                                        class="form-control" 
                                        id="novaSenha" 
-                                       placeholder="Digite a senha"
+                                       placeholder="Digite a nova senha"
                                        maxlength="50"
                                        jsf:required="true"
                                        jsf:requiredMessage="Nova senha deve ser informado."
@@ -63,6 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" 
+                                        jsf:id="alterar"
                                         class="btn btn-primary"
                                         jsf:action="#{acessoController.alterarSenha()}">
                                         Alterar

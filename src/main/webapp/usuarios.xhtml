@@ -38,7 +38,7 @@
                                 <input class="form-control"
                                        jsf:id="nome"
                                        jsf:value="#{usuarioController.nome}"
-                                       maxlength="100"
+                                       maxlength="50"
                                        placeholder="Digite um nome"
                                        type="text" />
                             </div>
@@ -183,10 +183,12 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button class="btn btn-primary" 
+                                                            jsf:id="excluir"
                                                             jsf:action="#{usuarioController.remover(usuario)}">
                                                         Sim
                                                     </button>
                                                     <button type="button" 
+                                                            jsf:id="cancelar"
                                                             class="btn btn-danger" data-dismiss="modal">Não</button>
                                                 </div>
                                             </div>

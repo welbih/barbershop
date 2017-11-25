@@ -44,6 +44,7 @@
                     </div>
                     <div class="form-group text-center">
                                 <button class="btn btn-primary"
+                                        jsf:id="buscar"
                                         jsf:action="#{produtoController.filtrar()}"
                                         type="button">
                                     <f:ajax execute="nome"
@@ -75,13 +76,13 @@
                             <f:facet name="header">
                                 Quantidade
                             </f:facet>
-                            #{produto.quantidade}
+                            #{produto.quantidadeEstoque}
                         </h:column>
                         <h:column>
                             <f:facet name="header">
                                 Valor
                             </f:facet>
-                            <h:outputText value="#{produto.valorUnitario}"> 
+                            <h:outputText value="#{produto.valor}"> 
                                 <f:convertNumber type="currency" locale="pt_BR"/>
                             </h:outputText>
                         </h:column>
@@ -136,8 +137,10 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                         <button  class="btn btn-primary" 
+                                                                 jsf:id="remover"
                                                                  jsf:action="#{produtoController.remover(produto)}">Sim</button>
                                                         <button type="button" 
+                                                                jsf:id="cancelar"
                                                                 class="btn btn-danger" data-dismiss="modal">Não</button>
                                                 </div>
                                             </div>

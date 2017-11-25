@@ -61,6 +61,7 @@
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-primary"
+                                jsf:id="buscar"
                                 jsf:action="#{clienteController.filtrar()}"
                                 type="button">
                             <f:ajax execute="nome celular"
@@ -153,10 +154,12 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-primary" 
+                                                                jsf:id="excluir"
                                                                 jsf:action="#{clienteController.remover(cliente)}">
                                                             Sim
                                                         </button>
                                                         <button type="button" 
+                                                                jsf:id="cancelar"
                                                                 class="btn btn-danger" data-dismiss="modal">Não</button>
                                                     </div>
                                                 </div>

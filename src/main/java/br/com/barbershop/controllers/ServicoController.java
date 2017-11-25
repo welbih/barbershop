@@ -73,7 +73,7 @@ public class ServicoController implements Serializable{
         getServicoDao().remove(servico);
                 FacesContext.getCurrentInstance().getExternalContext()
                 .getFlash().setKeepMessages(true);
-        JSF.addSuccessMessage("Serviço removido.");
+        JSF.addSuccessMessage("Serviço removido com sucesso.");
         return "servicos?faces-redirect=true";
     }
     public void filtrar()

@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -35,7 +34,6 @@ public class AtendimentoServico implements Serializable {
     private Atendimento venda;
 
     public AtendimentoServico() {
-        setServico(new Servico());
         setVenda(new Atendimento());
     }
 

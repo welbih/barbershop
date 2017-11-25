@@ -161,7 +161,7 @@
                                     <f:selectItems value="#{atendimentoController.produtos}"
                                                    itemValue="#{produto.id}"
                                                    var="produto"
-                                                   itemLabel="#{produto.nome} - R$ #{produto.valorUnitario} - Estoque: #{produto.quantidade}" />
+                                                   itemLabel="#{produto.nome} - R$ #{produto.valor} - Estoque: #{produto.quantidadeEstoque}" />
                                         <f:ajax  event="change" 
                                                  listener="#{atendimentoController.calculaProdutosEServicos()}"
                                                  execute="quantidadeProduto" 
@@ -246,7 +246,7 @@
                             <label for="tipo">Tipo de Pagamento</label><br></br>
                                 <select class="form-control"
                                         jsf:value="#{atendimentoController.atendimento.tipoPagamento}" 
-                                    id="tipo" 
+                                    jsf:id="tipoPagamento" 
                                     jsf:required="true"
                                     jsf:requiredMessage="Tipo de pagamento de ser selecionado"
                                     size="1" >

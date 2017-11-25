@@ -7,7 +7,6 @@ package br.com.barbershop.controllers;
 
 import br.com.barbershop.daos.ClienteDao;
 import br.com.barbershop.modelo.Cliente;
-import br.com.barbershop.services.ClienteService;
 import br.com.barbershop.web.JSF;
 import java.io.Serializable;
 import java.util.ArrayList;

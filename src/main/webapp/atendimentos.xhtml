@@ -63,6 +63,7 @@
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-primary"
+                                jsf:id="buscar"
                                 jsf:action="#{atendimentoController.filtrar()}"
                                 type="button">
                             <f:ajax execute="cliente usuario" 
@@ -82,7 +83,7 @@
                                  class="table"
                                  var="atendimento" 
                                  binding="#{atendimentoDT}" 
-                                 rows="2" 
+                                 rows="10" 
                                  rendered="#{atendimentoDT.rowCount != 0}">
                         <h:column>
                             <f:facet name="header">

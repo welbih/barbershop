@@ -47,15 +47,16 @@
                                      jsf:value="#{produtoController.produto.nome}"/>
                             </div>
                             <div class="form-group">
-                                <label for="cpf">Valor Unitário</label>
+                                <label for="cpf">Valor</label>
                                 <input type="text" 
                                        class="form-control js-valor" 
                                        id="valor" 
+                                       maxlength="9"
                                        placeholder="Digite o valor"
                                        required="true"
                                        jsf:required="true"
                                        jsf:requiredMessage="Valor deve ser informado."
-                                       jsf:value="#{produtoController.produto.valorUnitario}">
+                                       jsf:value="#{produtoController.produto.valor}">
                                     <f:convertNumber maxFractionDigits="2"/>
                                 </input>
                             </div>
@@ -69,11 +70,12 @@
                                        placeholder="Digite a quantidade"
                                        jsf:required="true"
                                        jsf:requiredMessage="Quantidade deve ser informado."
-                                       jsf:value="#{produtoController.produto.quantidade}"/>
+                                       jsf:value="#{produtoController.produto.quantidadeEstoque}"/>
                             </div>
                             <div class="text-center">
                                 <button type="submit" 
                                         class="btn btn-primary" 
+                                        jsf:id="salvar"
                                         jsf:action="#{produtoController.salvar()}">
                                         Salvar
                                 </button>

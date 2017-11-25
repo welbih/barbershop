@@ -24,10 +24,10 @@ public class Produto implements Serializable {
     private Long id;
     @Column(length = 50)
     private String nome;
-    @Column(precision = 5, scale = 2, name = "valor_unitario")
-    private BigDecimal valorUnitario;
+    @Column(precision = 5, scale = 2)
+    private BigDecimal valor;
     @Column(name = "quantidade_estoque")
-    private int quantidade;
+    private int quantidadeEstoque;
 
     public Long getId() {
         return id;
@@ -45,20 +45,20 @@ public class Produto implements Serializable {
         this.nome = nome;
     }
 
-    public BigDecimal getValorUnitario() {
-        return valorUnitario;
+    public BigDecimal getValor() {
+        return valor;
     }
 
-    public void setValorUnitario(BigDecimal valorUnitario) {
-        this.valorUnitario = valorUnitario;
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public int getQuantidadeEstoque() {
+        return quantidadeEstoque;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setQuantidadeEstoque(int quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
     }
     
 }

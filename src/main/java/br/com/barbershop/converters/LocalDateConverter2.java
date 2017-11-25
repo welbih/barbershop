@@ -17,7 +17,7 @@ import javax.faces.convert.FacesConverter;
  *
  * @author darkSniper
  */
-@FacesConverter(forClass = LocalDate.class)
+//@FacesConverter(forClass = LocalDate.class)
 public class LocalDateConverter2 implements Converter{
 
     @Override

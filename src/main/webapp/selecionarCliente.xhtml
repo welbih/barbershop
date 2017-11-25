@@ -51,6 +51,7 @@
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-primary"
+                                jsf:id="buscar"
                                 jsf:action="#{clienteController.selecionarCliente()}"
                                 type="submit">
 <!--                            <f:ajax execute="@form message" render="clientes message" />-->
@@ -117,11 +118,13 @@
                                                 <div class="modal-footer">
                                                     <!--<form class="form-horizontal" jsf:prependId="false">-->
                                                         <button  class="btn btn-primary" 
+                                                                 jsf:id="selecionarCliente"
                                                                  jsf:outcome="cadastroAtendimento.html">
                                                             Sim
                                                             <f:param name="clienteId" value="#{cliente.id}"/>
                                                         </button>
                                                         <button type="button" 
+                                                                jsf:id="cancelar"
                                                                 class="btn btn-danger" data-dismiss="modal">Não</button>
                                                     <!--</form>-->
                                                 </div>
