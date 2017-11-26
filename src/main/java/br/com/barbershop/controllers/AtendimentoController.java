@@ -21,8 +21,6 @@ import br.com.barbershop.web.JSF;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -232,11 +230,11 @@ public class AtendimentoController implements Serializable{
                 Produto produto = getProdutoDao().find(Long.valueOf(getMaisProdutos().get(i).get("id")));
                 int estoque = produto.getQuantidadeEstoque();
                 String quantidadeEstoque = "Estoque " + estoque;
-                BigDecimal valorUnitario = produto.getValor();
+                BigDecimal valorVenda = produto.getValorVenda();
                 DecimalFormat df = new DecimalFormat("¤ #,###,##0.00");
-                String valor = df.format(valorUnitario);
+                String valor = df.format(valorVenda);
                 
-                System.out.println("Valor do Produto: " + valorUnitario);
+                System.out.println("Valor do Produto: " + valorVenda);
                 getMaisProdutos().get(i).put("valor", valor);
                 getMaisProdutos().get(i).put("estoque", quantidadeEstoque);
                 System.out.println("Id: " + getMaisProdutos().get(i).get("id") +
@@ -370,7 +368,8 @@ public class AtendimentoController implements Serializable{
                 if(!nome.get("id").equals("Null") && !nome.get("quantidade").equals("Selecione a Quantidade")) {
                     
                     Produto produto = getProdutoDao().find(Long.valueOf(nome.get("id")));
-                    BigDecimal valorUnitario = produto.getValor();
+                    BigDecimal valorVenda = produto.getValorVenda();
+                    BigDecimal valorCusto = produto.getValorCusto();
                     Integer quantidade = Integer.valueOf(nome.get("quantidade"));
                     produto.setQuantidadeEstoque(produto.getQuantidadeEstoque()- quantidade);
                     
@@ -378,7 +377,8 @@ public class AtendimentoController implements Serializable{
                 
                     getAtendimentoProduto().setProduto(produto);
                     getAtendimentoProduto().setQuantidade(quantidade);
-                    getAtendimentoProduto().setValorUnitario(valorUnitario);
+                    getAtendimentoProduto().setValorCusto(valorCusto);
+                    getAtendimentoProduto().setValorVenda(valorVenda);
                     getAtendimentoProduto().setVenda(getAtendimento());
             
                     getAtendimento().adicionarProduto(getAtendimentoProduto());
@@ -415,7 +415,7 @@ public class AtendimentoController implements Serializable{
             if(!nome.get("id").equals("Null") && !nome.get("quantidade").equals("Selecione a Quantidade")) {
                 System.out.println(nome.get("id") + " qtd: " + nome.get("quantidade"));
                 
-                BigDecimal valorUnitario = getProdutoDao().find(Long.valueOf(nome.get("id"))).getValor();
+                BigDecimal valorUnitario = getProdutoDao().find(Long.valueOf(nome.get("id"))).getValorVenda();
                 Integer quantidade = Integer.valueOf(nome.get("quantidade"));
                 BigDecimal quantidadeBigDecimal = BigDecimal.valueOf(quantidade);
                 BigDecimal valorParcial = valorUnitario.multiply(quantidadeBigDecimal);

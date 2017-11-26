@@ -6,7 +6,9 @@
 package br.com.barbershop.daos;
 
 import br.com.barbershop.modelo.AtendimentoProduto;
-import br.com.barbershop.modelo.AtendimentoServico;
+import br.com.barbershop.modelo.Usuario;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -43,5 +45,31 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
                 .setParameter("vendaId", vendaId);
         
         return query.getResultList();
+    }
+    
+    public BigDecimal lucroProdutos(Long idAtendimento) {
+        TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda - a.valorCusto) from AtendimentoProduto a "
+                    + "where a.venda.id = :idAtendimento", BigDecimal.class)
+                                .setParameter("idAtendimento", idAtendimento);
+        
+        return query.getSingleResult();
+    }
+    
+    public BigDecimal valorTotalProdutos(Long idAtendimento) {
+        TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda) from AtendimentoProduto a "
+                    + "where a.venda.id = :idAtendimento", BigDecimal.class)
+                                .setParameter("idAtendimento", idAtendimento);
+        
+        return query.getSingleResult();
+    }
+    
+    public BigDecimal lucroPorDataEId(LocalDate dataInicial, LocalDate dataFinal, Long idAtendimento) {
+        TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda - a.valorCusto) from AtendimentoProduto a "
+                    + "where data between :dataInicial and :dataFinal and a.venda.id = :id", BigDecimal.class)
+                                .setParameter("dataInicial", dataInicial)
+                                .setParameter("dataFinal", dataFinal)
+                                .setParameter("id", idAtendimento);
+        
+        return query.getSingleResult();
     }
 }

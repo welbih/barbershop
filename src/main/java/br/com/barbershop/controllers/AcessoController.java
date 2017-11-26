@@ -38,10 +38,8 @@ public class AcessoController implements Serializable
      */
     public String autenticar()
     {
-        System.out.println(getEmail() +".."+getSenha());
         setSenha(Senhas.criptografar(getSenha()));
         boolean loginValido = usuarioDao.autendicado(getEmail(), getSenha());
-        System.out.println(getEmail() +".."+getSenha());
         
         if(!usuarioDao.existeEmail(getEmail())) {
             JSF.addErrorMessage("Nenhum usuário cadastrado com esse E-mail.");
@@ -90,8 +88,8 @@ public class AcessoController implements Serializable
         senha = Senhas.gerar(Usuario.TAMANHO_SENHA);
         usuario.gerarSenha(senha);
         getUsuarioDao().edit(usuario);
-        JSF.addSuccessMessage("Senha redefinida e enviada por e-email com sucesso.");
         Mail.enviarNovaSenha(senha, usuario);
+        JSF.addSuccessMessage("Senha redefinida e enviada por e-email com sucesso.");
 
         return "login";
     }
@@ -151,7 +149,6 @@ public class AcessoController implements Serializable
         getRestricoesAcesso().put("usuarios", Arrays.asList(Acesso.
                 exceto(Acesso.BARBEIRO)));
         getRestricoesAcesso().put("login", Arrays.asList());
-       
     }
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Map<String, Collection<Acesso>> getRestricoesAcesso()
@@ -197,7 +194,6 @@ public class AcessoController implements Serializable
         FacesContext fc = FacesContext.getCurrentInstance();
         String path = fc.getExternalContext().getRequestServletPath().
                 substring(1).replaceAll(".html", "");
-        System.out.println("Passando pelo redirecionar");
         if (!fc.isPostback())
         {
             if (isAnonimo() && !Arrays.asList("login").contains(path))

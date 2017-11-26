@@ -38,7 +38,7 @@
                                 <label for="nome">Nome</label>
                                 <input type="text" 
                                      class="form-control" 
-                                     id="nome" 
+                                     jsf:id="nome" 
                                      maxlength="50"
                                      required="true"
                                      placeholder="Digite o nome"
@@ -47,24 +47,38 @@
                                      jsf:value="#{produtoController.produto.nome}"/>
                             </div>
                             <div class="form-group">
-                                <label for="cpf">Valor</label>
+                                <label for="valorCusto">Valor de custo</label>
                                 <input type="text" 
                                        class="form-control js-valor" 
-                                       id="valor" 
+                                       id="valorCusto" 
                                        maxlength="9"
                                        placeholder="Digite o valor"
                                        required="true"
                                        jsf:required="true"
                                        jsf:requiredMessage="Valor deve ser informado."
-                                       jsf:value="#{produtoController.produto.valor}">
+                                       jsf:value="#{produtoController.produto.valorCusto}">
                                     <f:convertNumber maxFractionDigits="2"/>
                                 </input>
                             </div>
                             <div class="form-group">
-                                <label for="telefone">Quantidade</label>
+                                <label for="valorVenda">Valor de venda</label>
+                                <input type="text" 
+                                       class="form-control js-valor" 
+                                       jsf:id="valorVenda" 
+                                       maxlength="9"
+                                       placeholder="Digite o valor"
+                                       required="true"
+                                       jsf:required="true"
+                                       jsf:requiredMessage="Valor deve ser informado."
+                                       jsf:value="#{produtoController.produto.valorVenda}">
+                                    <f:convertNumber maxFractionDigits="2"/>
+                                </input>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantidade">Quantidade</label>
                                 <input type="text" 
                                        class="form-control" 
-                                       id="quantidade" 
+                                       jsf:id="quantidade" 
                                        required="true"
                                        maxlength="12"
                                        placeholder="Digite a quantidade"

@@ -24,41 +24,41 @@ public class Produto implements Serializable {
     private Long id;
     @Column(length = 50)
     private String nome;
-    @Column(precision = 5, scale = 2)
-    private BigDecimal valor;
+    @Column(precision = 5, scale = 2,name = "valor_custo")
+    private BigDecimal valorCusto;
+    @Column(precision = 5, scale = 2, name = "valor_venda")
+    private BigDecimal valorVenda;
     @Column(name = "quantidade_estoque")
     private int quantidadeEstoque;
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
     public int getQuantidadeEstoque() {
         return quantidadeEstoque;
     }
-
     public void setQuantidadeEstoque(int quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
     }
-    
+    public BigDecimal getValorCusto() {
+        return valorCusto;
+    }
+    public void setValorCusto(BigDecimal valorCusto) {
+        this.valorCusto = valorCusto;
+    }
+    public BigDecimal getValorVenda() {
+        return valorVenda;
+    }
+    public void setValorVenda(BigDecimal valorVenda) {
+        this.valorVenda = valorVenda;
+    }
 }

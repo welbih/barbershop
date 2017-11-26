@@ -18,6 +18,6 @@ import javax.mail.Session;
 public class MailSessionProducer
 {
     @Produces
-    @Resource(mappedName = "jboss/mail/barbershop")
+    @Resource(mappedName = "jboss/mail/barbershop2")
     private Session session;
 }

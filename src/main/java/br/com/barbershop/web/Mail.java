@@ -38,6 +38,7 @@ public class Mail
         {
             Logger.getLogger(Mail.class.getName()).log(Level.SEVERE, null,
                     ex);
+            JSF.addErrorMessage("Erro ao enviar a senha por email, tente mais tarde.");
         }
     }
     /**

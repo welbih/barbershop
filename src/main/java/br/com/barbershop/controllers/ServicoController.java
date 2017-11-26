@@ -69,7 +69,7 @@ public class ServicoController implements Serializable{
         }
     }
     
-    public String removerServico(Servico servico) {
+    public String remover(Servico servico) {
         getServicoDao().remove(servico);
                 FacesContext.getCurrentInstance().getExternalContext()
                 .getFlash().setKeepMessages(true);

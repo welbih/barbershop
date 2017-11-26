@@ -80,9 +80,17 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                Valor
+                                Valor de custo
                             </f:facet>
-                            <h:outputText value="#{produto.valor}"> 
+                            <h:outputText value="#{produto.valorCusto}"> 
+                                <f:convertNumber type="currency" locale="pt_BR"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Valor de venda
+                            </f:facet>
+                            <h:outputText value="#{produto.valorVenda}"> 
                                 <f:convertNumber type="currency" locale="pt_BR"/>
                             </h:outputText>
                         </h:column>

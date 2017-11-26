@@ -25,8 +25,10 @@ public class AtendimentoProduto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(precision = 5, scale = 2)
-    private BigDecimal valorUnitario;
+    @Column(precision = 5, scale = 2, name = "valor_venda")
+    private BigDecimal valorVenda;
+    @Column(precision = 5, scale = 2, name = "valor_custo")
+    private BigDecimal valorCusto;
     private int quantidade;
     @ManyToOne
     private Produto produto;
@@ -46,12 +48,6 @@ public class AtendimentoProduto implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getValorUnitario() {
-        return valorUnitario;
-    }
-    public void setValorUnitario(BigDecimal valorUnitario) {
-        this.valorUnitario = valorUnitario;
-    }
     public int getQuantidade() {
         return quantidade;
     }
@@ -69,6 +65,22 @@ public class AtendimentoProduto implements Serializable {
     }
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public BigDecimal getValorVenda() {
+        return valorVenda;
+    }
+
+    public void setValorVenda(BigDecimal valorVenda) {
+        this.valorVenda = valorVenda;
+    }
+
+    public BigDecimal getValorCusto() {
+        return valorCusto;
+    }
+
+    public void setValorCusto(BigDecimal valorCusto) {
+        this.valorCusto = valorCusto;
     }
     
 }
