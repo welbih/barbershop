@@ -42,16 +42,11 @@ public class UsuarioController implements Serializable{
     
     public void filtrar()
     {
-        System.out.println("Nome: " + getNome());
-        System.out.println("CPF: " + getCpf());
-        System.out.println("Acesso: " + getAcesso());
         if (getNome() == null && getCpf() == null
                     && getAcesso() == null) {
-            System.out.println("Passando pelo if...");
             setUsuarios(getUsuarioDao().findAll());
         }
         else {
-            System.out.println("Passando pelo else");
             List<Usuario> filtro = new ArrayList<>();
             for (Usuario usuario : getUsuarioDao().findAll())
                 if ((getNome() == null || usuario.getNome().
@@ -60,7 +55,6 @@ public class UsuarioController implements Serializable{
                         null || usuario.getCpf().contains(
                                 getCpf())) && (getAcesso() ==
                         null || usuario.getAcesso().equals(getAcesso()))){
-                    System.out.println("Dentro do if do for...");
                     filtro.add(usuario);
                 }
             setUsuarios(filtro);

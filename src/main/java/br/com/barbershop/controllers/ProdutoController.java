@@ -67,24 +67,19 @@ public class ProdutoController implements Serializable{
     }
     public void filtrar()
     {
-        System.out.println("Nome: " + getProduto().getNome());
         if (getProduto().getNome().isEmpty()) {
-            System.out.println("Passando pelo if...");
             setProdutos(getProdutoDao().findAll());
         }
         else{
-            System.out.println("Passando pelo else");
             List<Produto> filtro = new ArrayList<>();
             for (Produto produto : getProdutoDao().findAll())
                 if (getProduto().getNome() == null || produto.getNome().
                         toLowerCase().contains(getProduto().getNome().
                                 toLowerCase())) {
-                    System.out.println("Dentro do if do for...");
                     filtro.add(produto);
                 }
             setProdutos(filtro);
         }
-        System.out.println(getProdutos().size());
     }
     
     public boolean campoPreenchido() {

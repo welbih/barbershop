@@ -26,25 +26,14 @@ import javax.inject.Named;
 public class ServicoController implements Serializable{
     
     private Servico servico = new Servico();
-    
     private List<Servico> servicos;
     
     @Inject
     private ServicoDao servicoDao;
 
     ServicoController() {
-        System.out.println("Construtor...");
         setServico(new Servico());
         setServicos(new ArrayList<>());
-    }
-    
-    @PostConstruct
-    public void inicializador() {
-        System.out.println("Chamando inicializador...");
-        if(getServico().getId() == null)
-            setServico(new Servico());
-        if(getServico().getId() != null)
-            setServico(new Servico());
     }
 
     public String salvar() {
@@ -78,19 +67,15 @@ public class ServicoController implements Serializable{
     }
     public void filtrar()
     {
-        System.out.println("Nome: " + getServico().getNome());
         if (getServico().getNome().isEmpty()) {
-            System.out.println("Passando pelo if...");
             setServicos(getServicoDao().findAll());
         }
         else{
-            System.out.println("Passando pelo else");
             List<Servico> filtro = new ArrayList<>();
             for (Servico servico : getServicoDao().findAll())
                 if (getServico().getNome() == null || servico.getNome().
                         toLowerCase().contains(getServico().getNome().
                                 toLowerCase())) {
-                    System.out.println("Dentro do if do for...");
                     filtro.add(servico);
                 }
             setServicos(filtro);
@@ -106,7 +91,6 @@ public class ServicoController implements Serializable{
     }
 
     public void setServico(Servico servico) {
-        System.out.println("Chamando o setServico...");
         this.servico = servico;
     }
 

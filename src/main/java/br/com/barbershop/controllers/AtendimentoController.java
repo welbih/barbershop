@@ -20,7 +20,6 @@ import br.com.barbershop.modelo.Servico;
 import br.com.barbershop.web.JSF;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,11 +44,8 @@ public class AtendimentoController implements Serializable{
     private Long atendimentoId;
 
     private String nomeCliente, nomeUsuario;
-    
     private long clienteId;
     private BigDecimal valorTotal;
-    private BigDecimal valorServico;
-    
     
     private List<Map<String, String>> maisServicos;
     private List<Map<String, String>> maisProdutos;
@@ -96,7 +92,6 @@ public class AtendimentoController implements Serializable{
         if(!validarServicoEProduto()){
             return "";
         }
-//        validarServicoEProduto();
         
         getAtendimento().setCliente(getCliente());
         getAtendimento().setUsuario(getUsuarioLogado().getUsuario());
@@ -113,26 +108,20 @@ public class AtendimentoController implements Serializable{
     
     public void filtrar()
     {
-        System.out.println("Cliente: " + getNomeCliente());
-        System.out.println("Cliente: " + getNomeUsuario());
         if (getNomeCliente().isEmpty() && getNomeUsuario().isEmpty()) {
-            System.out.println("Passando pelo if...");
             setAtendimentos(getAtendimentoDao().findAll());
         }
         else{
-            System.out.println("Passando pelo else");
             List<Atendimento> filtro = new ArrayList<>();
             for (Atendimento atendimento : getAtendimentoDao().findAll())
                 if ((getNomeCliente()== null || atendimento.getCliente().getNome().
                         toLowerCase().contains(getNomeCliente().
                                 toLowerCase())) && (getNomeUsuario() ==
                         null || atendimento.getUsuario().getNome().toLowerCase().contains(getNomeUsuario()))){
-                    System.out.println("Dentro do if do for...");
                     filtro.add(atendimento);
                 }
             setAtendimentos(filtro);
         }
-        System.out.println(getClientes().size());
     }
     
     public boolean camposPreenchidos() {
@@ -152,97 +141,13 @@ public class AtendimentoController implements Serializable{
         return valorTotal;
     }
     
-//        public void filtrar()
-//    {
-//        System.out.println("Data Inicial: " + getDataInicial());
-//        System.out.println("Data Final: " + getDataFinal());
-//    }
-    
-//    private boolean nenhumServicoEProduto() {
-//        for(Map<String, String> nome : getMaisProdutos()){
-//            System.out.println("Entrando no for");
-//            System.out.println(nome.get("id") + nome.get("quantidade"));
-//            if(nome.get("id").equals("Null") && nome.get("quantidade").equals("Selecione a Quantidade")) {
-//                System.out.println("Entrando no if");
-//                for(Map<String, String> nomeS : getMaisServicos()){
-//                    System.out.println("Entrando no segundo for");
-//                    if(nomeS.get("id").equals("Null") && nomeS.get("quantidade").equals("Selecione a Quantidade")) {
-//                        System.out.println("Entrando no ultimo if");
-//                        return true;
-//                    }
-//                }                
-//            }
-//        }
-//        System.out.println("Passando pelo fim do metodo");
-//        return false;
-//    }
     public void adicionarServico(int posicao) {
-        System.out.println("Adicionando uma linha no serviço");
         getMaisServicos().add(posicao, new HashMap<String, String>());
-        System.out.println(getMaisServicos().size());
-        for(Map<String, String> nome : getMaisServicos()){
-            System.out.println("Nome:" + nome.get("nome") + " Qntd: " + nome.get("quantidade"));
-        }
     }
+
     public void removerServico(HashMap<String, String> servico) {
         getMaisServicos().remove(servico);
         calculaProdutosEServicos();
-    }
-    
-    public void valorDoServico() {
-        System.out.println("Valor do Serviço...");
-        for(int i = 0; i < getMaisServicos().size(); i++) {
-            System.out.println("Verificando se está null " + getMaisServicos().get(i).get("id"));
-            if(getMaisServicos().get(i).get("id") == null) {
-                getMaisServicos().get(i).put("valor", "");
-            } else if (getMaisServicos().get(i).get("id").equals("Null")){
-                getMaisServicos().get(i).put("valor", "");
-            }
-            if(getMaisServicos().get(i).get("id") != null && !getMaisServicos().get(i).get("id").equals("Null")) {
-                BigDecimal valorUnitario = getServicoDao().find(Long.valueOf(getMaisServicos().get(i).get("id"))).getValor();
-                DecimalFormat df = new DecimalFormat("¤ #,###,##0.00");
-                String valor = df.format(valorUnitario);
-                
-                System.out.println("Valor do Serviço: " + valorUnitario);
-//                getMaisServicos().get(i).put("valor", valorUnitario.toString());
-                Map map = new HashMap<String, BigDecimal>();
-                map.put("valor", valor);
-                getMaisServicos().get(i).put("valor", valor);
-//                getMaisServicos().add(map);
-                System.out.println("Id: " + getMaisServicos().get(i).get("id") +
-                                    "valor: " + getMaisServicos().get(i).get("valor") +
-                                    "posição da list: " + i);
-            }
-            System.out.println("posição: " + i);
-        }
-    }
-    public void valorDoProduto() {
-        System.out.println("Valor do Produto...");
-        for(int i = 0; i < getMaisProdutos().size(); i++) {
-            if(getMaisProdutos().get(i).get("id") == null) {
-                getMaisProdutos().get(i).put("valor", "");
-                getMaisProdutos().get(i).put("estoque", "");
-            } else if(getMaisProdutos().get(i).get("id").equals("Null")){
-                getMaisProdutos().get(i).put("valor", "");
-                getMaisProdutos().get(i).put("estoque", "");
-            }
-            if(getMaisProdutos().get(i).get("id") != null && !getMaisProdutos().get(i).get("id").equals("Null")) {
-                Produto produto = getProdutoDao().find(Long.valueOf(getMaisProdutos().get(i).get("id")));
-                int estoque = produto.getQuantidadeEstoque();
-                String quantidadeEstoque = "Estoque " + estoque;
-                BigDecimal valorVenda = produto.getValorVenda();
-                DecimalFormat df = new DecimalFormat("¤ #,###,##0.00");
-                String valor = df.format(valorVenda);
-                
-                System.out.println("Valor do Produto: " + valorVenda);
-                getMaisProdutos().get(i).put("valor", valor);
-                getMaisProdutos().get(i).put("estoque", quantidadeEstoque);
-                System.out.println("Id: " + getMaisProdutos().get(i).get("id") +
-                                    "valor: " + getMaisProdutos().get(i).get("valor") +
-                                    "posição da list: " + i);
-            }
-            System.out.println("posição: " + i);
-        }
     }
     
     public List<Map<String, String>> getMaisServicos() {
@@ -272,11 +177,8 @@ public class AtendimentoController implements Serializable{
             if(nome.get("id") != null && nome.get("quantidade") != null) 
                 if(!nome.get("id").equals("Null") && !nome.get("quantidade").equals("Selecione a Quantidade")) {
                     for2: for(Map<String, String> nome1 : getMaisServicos()){
-                        System.out.println("VAlidando servico");
                         if(nome.get("id").equals(nome1.get("id"))) {
-                            System.out.println("Aumentando a quantidade");
                             quantidadeServico += 1;
-                            System.out.println(quantidadeServico);
                             if(quantidadeServico > 1) {
                                 JSF.addErrorMessage("Você não pode selecionar o mesmo servico mais de uma vez, aumente a quantidade.");
                                 validacaoOk = false;
@@ -306,11 +208,8 @@ public class AtendimentoController implements Serializable{
                     if(nome.get("id") != null && nome.get("quantidade") != null) 
                         if(!nome.get("id").equals("Null") && !nome.get("quantidade").equals("Selecione a Quantidade")) {
                             for4: for(Map<String, String> nome1 : getMaisProdutos()){
-                                System.out.println("VAlidando produto");
                                 if(nome.get("id").equals(nome1.get("id"))) {
-                                    System.out.println("Aumentando a quantidade");
                                     quantidadeProduto += 1;
-                                    System.out.println(quantidadeProduto);
                                     if(quantidadeProduto > 1) {
                                         JSF.addErrorMessage("Você não pode selecionar o mesmo produto mais de uma vez, aumente a quantidade.");
                                         validacaoOk = false;
@@ -359,8 +258,6 @@ public class AtendimentoController implements Serializable{
                     getAtendimento().adicionarServico(getAtendimentoServico());
                     getAtendimentoServicoDao().create(getAtendimentoServico());
                     setAtendimentoServico(new AtendimentoServico());
-                    
-                    System.out.println("Adicionando serviços... no atendimento");
                 }
         }
         for(Map<String, String> nome : getMaisProdutos()){
@@ -390,72 +287,43 @@ public class AtendimentoController implements Serializable{
     
     public void buscarServicos(Long idVenda) {
         setVendaServicos(getAtendimentoServicoDao().porVenda(idVenda));
-        System.out.println(getVendaServicos().size());
-        getVendaServicos().forEach(a ->
-                System.out.println(a.getServico().getNome())
-        );
     }
     
     public void buscarProdutos(Long idVenda) {
         setVendaProdutos(getAtendimentoProdutoDao().porVenda(idVenda));
-        System.out.println(getVendaProdutos().size());
-        getVendaProdutos().forEach(a ->
-                System.out.println(a.getProduto().getNome())
-        );
     }
     
     public void calculaProdutosEServicos(){
         valorTotal = BigDecimal.ZERO;
-//        zerarValorTotal();
-        System.out.println("Calculando...");
-        valorDoServico();
-        valorDoProduto();
         for(Map<String, String> nome : getMaisProdutos()){
             if(nome.get("id") != null && nome.get("quantidade") != null)
             if(!nome.get("id").equals("Null") && !nome.get("quantidade").equals("Selecione a Quantidade")) {
-                System.out.println(nome.get("id") + " qtd: " + nome.get("quantidade"));
                 
                 BigDecimal valorUnitario = getProdutoDao().find(Long.valueOf(nome.get("id"))).getValorVenda();
                 Integer quantidade = Integer.valueOf(nome.get("quantidade"));
                 BigDecimal quantidadeBigDecimal = BigDecimal.valueOf(quantidade);
                 BigDecimal valorParcial = valorUnitario.multiply(quantidadeBigDecimal);
                 valorTotal = valorTotal.add(valorParcial);
-                System.out.println(valorTotal);
             }
         }
         for(Map<String, String> nome : getMaisServicos()){
             
             if(nome.get("id") != null && nome.get("quantidade") != null)
             if(!nome.get("id").equals("Null") && !nome.get("quantidade").equals("Selecione a Quantidade")) {
-                System.out.println(nome.get("id") + " qtd: " + nome.get("quantidade"));
                 
                 BigDecimal valorUnitario = getServicoDao().find(Long.valueOf(nome.get("id"))).getValor();
                 Integer quantidade = Integer.valueOf(nome.get("quantidade"));
                 BigDecimal quantidadeBigDecimal = BigDecimal.valueOf(quantidade);
                 BigDecimal valorParcial = valorUnitario.multiply(quantidadeBigDecimal);
                 valorTotal = valorTotal.add(valorParcial);
-                System.out.println(valorTotal);
             }
         }
     }
-//    public void zerarValorTotal() {
-//        for(Map<String, String> nome : getMaisServicos()){
-//            if(nome.get("nome") != null)
-//                if(nome.get("nome").equals("#Nenhum") )
-//                    valorTotal = BigDecimal.ZERO;            
-//        }
-//        for(Map<String, String> nome : getMaisProdutos()){
-//            if(nome.get("nome") != null)
-//                if(nome.get("nome").equals("#Nenhum") )
-//                    valorTotal = BigDecimal.ZERO;            
-//        }
-//    }
     
     public void setMaisServicos(List<Map<String, String>> maisServicos) {
         this.maisServicos = maisServicos;
     }
     public void adicionarProduto(int posicao) {
-        System.out.println("Adicionando uma linha no Produto");
         getMaisProdutos().add(posicao, new HashMap());
     }
     public void removerProduto(HashMap<String, String> produto) {

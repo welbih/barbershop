@@ -11,15 +11,12 @@
     	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
     	<meta content="width=device-width, initial-scale=1" name="viewport" />
     	<link href="resources/css/bootstrap.css" rel="stylesheet" />
-    	<!--<link href="resources/css/estilo.css" rel="stylesheet" />-->
         <title>BarberShop - Sistema Gerenciador</title>
     </head>
     
     <body jsf:id="body">
         
         <f:metadata>
-            <o:viewParam name="servicoId" value="#{servicoController.servico}" 
-                         valueChangeListener="#{servicoController.inicializador}"/>
             <f:event listener="#{acessoController.redirecionar()}"
                  type="preRenderView" />
         </f:metadata>
@@ -60,11 +57,12 @@
                                 </input>
                             </div>
                             <div class="text-center">
-                                <button type="submit" 
+                                <button type="button" 
                                         class="btn btn-primary" 
                                         jsf:id="salvar"
                                         jsf:action="#{servicoController.salvar()}">
                                         Salvar
+                                        <f:ajax execute="valor nome"/>
                                 </button>
                             </div>
                         </form>

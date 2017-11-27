@@ -124,12 +124,11 @@ public class VendaController implements Serializable{
                     getAtendimentos().size() != 0) {
 
             BigDecimal totalProduto = new BigDecimal(0);
-            System.out.println(getAtendimentos().size());
             for(Atendimento a : getAtendimentos()) {
                 try {
                     totalProduto = totalProduto.add(getAtendimentoProdutoDao().valorTotalProdutos(a.getId()));
                 } catch (NullPointerException e) {
-                    System.out.println("Excessão lançada na busca do Produto...");
+                    // 
                 } 
                 System.out.println(getAtendimentoProdutoDao().valorTotalProdutos(a.getId()));
                 System.out.println(totalProduto);
@@ -141,7 +140,7 @@ public class VendaController implements Serializable{
                 try {
                     lucroProduto = lucroProduto.add(getAtendimentoProdutoDao().lucroProdutos(a.getId()));
                 } catch (NullPointerException e) {
-                    System.out.println("Excessão lançada na busca do Serviço...");
+                    //
                 }
             }
             setLucroProdutos(lucroProduto.multiply(BigDecimal.valueOf(0.90)));
@@ -151,7 +150,7 @@ public class VendaController implements Serializable{
                 try {
                     totalServico = totalServico.add(getAtendimentoServicoDao().totalServicos(a.getId()));
                 } catch (NullPointerException e) {
-                    System.out.println("Excessão lançada no retorno no valor total do Serviço...");
+                    //
                 }
             }
             setValorTotalServicos(totalServico);
@@ -170,10 +169,8 @@ public class VendaController implements Serializable{
                 try {
                     totalProduto = totalProduto.add(getAtendimentoProdutoDao().valorTotalProdutos(a.getId()));
                 } catch (NullPointerException e) {
-                    System.out.println("Excessão lançada na busca do Produto...");
+                    //
                 } 
-                System.out.println(getAtendimentoProdutoDao().valorTotalProdutos(a.getId()));
-                System.out.println(totalProduto);
             }
             setValorTotalProdutos(totalProduto);
             
@@ -182,7 +179,7 @@ public class VendaController implements Serializable{
                 try {
                     lucroProduto = lucroProduto.add(getAtendimentoProdutoDao().lucroProdutos(a.getId()));
                 } catch (NullPointerException e) {
-                    System.out.println("Excessão lançada na busca do Serviço...");
+                    //
                 }
             }
             setLucroProdutos(lucroProduto.multiply(BigDecimal.valueOf(0.10)));
@@ -192,7 +189,7 @@ public class VendaController implements Serializable{
                 try {
                     totalServico = totalServico.add(getAtendimentoServicoDao().totalServicos(a.getId()));
                 } catch (NullPointerException e) {
-                    System.out.println("Excessão lançada no retorno no valor total do Serviço...");
+                    //
                 }
             }
             setValorTotalServicos(totalServico);

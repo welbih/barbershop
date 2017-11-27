@@ -10,7 +10,6 @@
     	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
     	<meta content="width=device-width, initial-scale=1" name="viewport" />
     	<link href="resources/css/bootstrap.css" rel="stylesheet" />
-    	<!--<link href="resources/css/estilo.css" rel="stylesheet" />-->
         <title>BarberShop - Sistema Gerenciador</title>
     </head>
     
@@ -21,7 +20,6 @@
         <ui:include src="resources/fragmentos/messages.xhtml" id="message"/>
         
             <div class="container" style="margin-top: 75px">
-                <!--<div class="row">-->
                 <div class="col-md-8 col-md-offset-2">
                         
 
@@ -54,15 +52,11 @@
                                 jsf:id="buscar"
                                 jsf:action="#{clienteController.selecionarCliente()}"
                                 type="submit">
-<!--                            <f:ajax execute="@form message" render="clientes message" />-->
                             Buscar
                         </button>
                     </div>
                 
                 <div class="row" jsf:id="clientes">
-<!--                    <span jsf:rendered="# {clienteController.clientes.size() == 0 and clienteController.camposPreenchidos()}">
-                        <b>Cliente não encontrado.</b>
-                    </span>-->
                     <h:dataTable value="#{clienteController.clientes}" 
                                      class="table"
                                      var="cliente" 
@@ -116,7 +110,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <!--<form class="form-horizontal" jsf:prependId="false">-->
                                                         <button  class="btn btn-primary" 
                                                                  jsf:id="selecionarCliente"
                                                                  jsf:outcome="cadastroAtendimento.html">
@@ -126,7 +119,6 @@
                                                         <button type="button" 
                                                                 jsf:id="cancelar"
                                                                 class="btn btn-danger" data-dismiss="modal">Não</button>
-                                                    <!--</form>-->
                                                 </div>
                                             </div>
                                         </div>
