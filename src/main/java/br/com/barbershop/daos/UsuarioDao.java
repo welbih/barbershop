@@ -5,7 +5,10 @@
  */
 package br.com.barbershop.daos;
 
+import br.com.barbershop.enums.Acesso;
+import br.com.barbershop.enums.TipoPagamento;
 import br.com.barbershop.modelo.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -63,6 +66,13 @@ public class UsuarioDao extends AbstractDao<Usuario>{
                 + "Usuario u where u.cpf = :pCpf", Usuario.class)
                                         .setParameter("pCpf", cpf);
         return !query.getResultList().isEmpty();
+    }
+    
+    public List<Usuario> porAcesso(Acesso acesso) {
+        Query query = getEntityManager().createQuery("select u from "
+                + "Usuario u where u.acesso = :acesso", Usuario.class)
+                                    .setParameter("acesso", acesso);
+        return query.getResultList();
     }
     
     public EntityManager getManager() {

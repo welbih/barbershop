@@ -8,9 +8,11 @@ package br.com.barbershop.controllers;
 import br.com.barbershop.daos.AtendimentoDao;
 import br.com.barbershop.daos.AtendimentoProdutoDao;
 import br.com.barbershop.daos.AtendimentoServicoDao;
+import br.com.barbershop.daos.UsuarioDao;
 import br.com.barbershop.enums.Acesso;
 import br.com.barbershop.enums.TipoPagamento;
 import br.com.barbershop.modelo.Atendimento;
+import br.com.barbershop.modelo.Usuario;
 import br.com.barbershop.web.JSF;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -43,6 +45,29 @@ public class VendaController implements Serializable{
     private BigDecimal totalPorDinheiro;
     private BigDecimal totalPorDebito;
     private BigDecimal totalPorCredito;
+    private BigDecimal totalCustoProdutos;
+    private BigDecimal totalCustoServicos;
+    private BigDecimal totalCusto;
+    
+    private BigDecimal barbeiroTotalVendas;
+    private BigDecimal barbeiroTotalLucro;
+    private BigDecimal barbeiroTotalProdutos;
+    private BigDecimal barbeiroTotalServicos;
+    private BigDecimal barbeirolucroProdutos;
+    private BigDecimal barbeirolucroServicos;
+    private BigDecimal barbeiroTotalPorDinheiro;
+    private BigDecimal barbeiroTotalPorDebito;
+    private BigDecimal barbeiroTotalPorCredito;
+    private BigDecimal barbeiroCustoProdutos;
+    private BigDecimal barbeiroCustoServicos;
+    private BigDecimal barbeirototalCusto;
+    
+    private Usuario barbeiro;
+    
+    private List<Usuario> barbeiros;
+    
+    @Inject
+    private UsuarioDao usuarioDao;
     
     private List<Atendimento> atendimentos;
 
@@ -63,9 +88,12 @@ public class VendaController implements Serializable{
     
     public VendaController() {
         setAtendimentos(new ArrayList<>());
+        setBarbeiro(new Usuario());
+        setBarbeiros(new ArrayList<>());
     }
         
     public void vendas() {
+        System.out.println("Barbeiro selecionado: " + getBarbeiro().getNome());
         setDataInicial(converterData(getDataI()));
         setDataFinal(converterData(getDataF()));
 
@@ -135,6 +163,18 @@ public class VendaController implements Serializable{
             }
             setValorTotalProdutos(totalProduto);
             
+            BigDecimal somaCustoProduto = new BigDecimal(0);
+            for(Atendimento a : getAtendimentos()) {
+                try {
+                    somaCustoProduto = somaCustoProduto.add(getAtendimentoProdutoDao().valorTotalCustoProdutos(a.getId()));
+                } catch (NullPointerException e) {
+                    // 
+                } 
+                System.out.println("Calculando valor de custo do produtos" + somaCustoProduto);
+            }
+            setTotalCustoProdutos(somaCustoProduto);
+            System.out.println("Passando o valor total do custo." + getTotalCustoProdutos());
+            
             BigDecimal lucroProduto = new BigDecimal(0);
             for(Atendimento a : getAtendimentos()) {
                 try {
@@ -142,8 +182,9 @@ public class VendaController implements Serializable{
                 } catch (NullPointerException e) {
                     //
                 }
+                System.out.println("Valor do lucro produtos " + lucroProduto);
             }
-            setLucroProdutos(lucroProduto.multiply(BigDecimal.valueOf(0.90)));
+            setLucroProdutos(lucroProduto);
             
             BigDecimal totalServico = new BigDecimal(0);
             for(Atendimento a : getAtendimentos()) {
@@ -155,8 +196,11 @@ public class VendaController implements Serializable{
             }
             setValorTotalServicos(totalServico);
             
+            setTotalCustoServicos(getValorTotalServicos().divide(BigDecimal.valueOf(2)));
             setLucroServicos(getValorTotalServicos().divide(BigDecimal.valueOf(2)));
             
+            BigDecimal somaCusto = getTotalCustoProdutos().add(getTotalCustoServicos());
+            setTotalCusto(somaCusto);
             setValorTotalLucro(getLucroProdutos().add(getLucroServicos()));
         }
         
@@ -198,6 +242,76 @@ public class VendaController implements Serializable{
             
             setValorTotalLucro(getLucroProdutos().add(getLucroServicos()));
         }
+    }
+    
+    public void vendasBarbeiro() {
+        getBarbeiro();
+        
+        if(getUsuarioLogado().getUsuario().getAcesso().equals(Acesso.BARBEIRO)) {
+            setValorTotalVendas(getAtendimentoDao().totalVendas(
+                                    getDataInicial(), 
+                                    getDataFinal(), 
+                                    getUsuarioLogado().getUsuario()));
+            setAtendimentos(getAtendimentoDao().porDataEBarbeiro(
+                                    getDataInicial(), 
+                                    getDataFinal(), 
+                                    getUsuarioLogado().getUsuario()));
+            setTotalPorDinheiro(getAtendimentoDao().porDataETipoPagamentoEUsuario(
+                                    getDataInicial(), 
+                                    getDataFinal(), 
+                                    TipoPagamento.DINHEIRO, 
+                                    getUsuarioLogado().getUsuario()));
+            setTotalPorDebito(getAtendimentoDao().porDataETipoPagamentoEUsuario(
+                                    getDataInicial(), 
+                                    getDataFinal(), 
+                                    TipoPagamento.CARTAO_DEBITO, 
+                                    getUsuarioLogado().getUsuario()));
+            setTotalPorCredito(getAtendimentoDao().porDataETipoPagamentoEUsuario(
+                                    getDataInicial(), 
+                                    getDataFinal(), 
+                                    TipoPagamento.CARTAO_CREDITO, 
+                                    getUsuarioLogado().getUsuario()));
+        }
+        
+        if(getUsuarioLogado().getUsuario().getAcesso().equals(Acesso.BARBEIRO) &&
+            getAtendimentos().size() != 0) {
+
+            BigDecimal totalProduto = new BigDecimal(0);
+            System.out.println(getAtendimentos().size());
+            for(Atendimento a : getAtendimentos()) {
+                try {
+                    totalProduto = totalProduto.add(getAtendimentoProdutoDao().valorTotalProdutos(a.getId()));
+                } catch (NullPointerException e) {
+                    //
+                } 
+            }
+            setValorTotalProdutos(totalProduto);
+            
+            BigDecimal lucroProduto = new BigDecimal(0);
+            for(Atendimento a : getAtendimentos()) {
+                try {
+                    lucroProduto = lucroProduto.add(getAtendimentoProdutoDao().lucroProdutos(a.getId()));
+                } catch (NullPointerException e) {
+                    //
+                }
+            }
+            setLucroProdutos(lucroProduto.multiply(BigDecimal.valueOf(0.10)));
+            
+            BigDecimal totalServico = new BigDecimal(0);
+            for(Atendimento a : getAtendimentos()) {
+                try {
+                    totalServico = totalServico.add(getAtendimentoServicoDao().totalServicos(a.getId()));
+                } catch (NullPointerException e) {
+                    //
+                }
+            }
+            setValorTotalServicos(totalServico);
+            
+            setLucroServicos(getValorTotalServicos().divide(BigDecimal.valueOf(2)));
+            
+            setValorTotalLucro(getLucroProdutos().add(getLucroServicos()));
+        }
+        
     }
         
     private LocalDate converterData(String data) {
@@ -309,4 +423,134 @@ public class VendaController implements Serializable{
     public void setValorTotalLucro(BigDecimal valorTotalLucro) {
         this.valorTotalLucro = valorTotalLucro;
     }
+    public BigDecimal getTotalCustoProdutos() {
+        return totalCustoProdutos;
+    }
+    public void setTotalCustoProdutos(BigDecimal totalCustoProdutos) {
+        this.totalCustoProdutos = totalCustoProdutos;
+    }
+    public BigDecimal getTotalCustoServicos() {
+        return totalCustoServicos;
+    }
+    public void setTotalCustoServicos(BigDecimal totalCustoServicos) {
+        this.totalCustoServicos = totalCustoServicos;
+    }
+    public BigDecimal getTotalCusto() {
+        return totalCusto;
+    }
+    public void setTotalCusto(BigDecimal totalCusto) {
+        this.totalCusto = totalCusto;
+    }
+    public UsuarioDao getUsuarioDao() {
+        return usuarioDao;
+    }
+    public List<Usuario> getBarbeiros() {
+        return getUsuarioDao().porAcesso(Acesso.BARBEIRO);
+    }
+    public void setBarbeiros(List<Usuario> barbeiros) {
+        this.barbeiros = barbeiros;
+    }
+    public Usuario getBarbeiro() {
+        return barbeiro;
+    }
+    public void setBarbeiro(Usuario barbeiro) {
+        this.barbeiro = barbeiro;
+    }
+
+    public BigDecimal getBarbeiroTotalVendas() {
+        return barbeiroTotalVendas;
+    }
+
+    public void setBarbeiroTotalVendas(BigDecimal barbeiroTotalVendas) {
+        this.barbeiroTotalVendas = barbeiroTotalVendas;
+    }
+
+    public BigDecimal getBarbeiroTotalLucro() {
+        return barbeiroTotalLucro;
+    }
+
+    public void setBarbeiroTotalLucro(BigDecimal barbeiroTotalLucro) {
+        this.barbeiroTotalLucro = barbeiroTotalLucro;
+    }
+
+    public BigDecimal getBarbeiroTotalProdutos() {
+        return barbeiroTotalProdutos;
+    }
+
+    public void setBarbeiroTotalProdutos(BigDecimal barbeiroTotalProdutos) {
+        this.barbeiroTotalProdutos = barbeiroTotalProdutos;
+    }
+
+    public BigDecimal getBarbeiroTotalServicos() {
+        return barbeiroTotalServicos;
+    }
+
+    public void setBarbeiroTotalServicos(BigDecimal barbeiroTotalServicos) {
+        this.barbeiroTotalServicos = barbeiroTotalServicos;
+    }
+
+    public BigDecimal getBarbeirolucroProdutos() {
+        return barbeirolucroProdutos;
+    }
+
+    public void setBarbeirolucroProdutos(BigDecimal barbeirolucroProdutos) {
+        this.barbeirolucroProdutos = barbeirolucroProdutos;
+    }
+
+    public BigDecimal getBarbeirolucroServicos() {
+        return barbeirolucroServicos;
+    }
+
+    public void setBarbeirolucroServicos(BigDecimal barbeirolucroServicos) {
+        this.barbeirolucroServicos = barbeirolucroServicos;
+    }
+
+    public BigDecimal getBarbeiroTotalPorDinheiro() {
+        return barbeiroTotalPorDinheiro;
+    }
+
+    public void setBarbeiroTotalPorDinheiro(BigDecimal barbeiroTotalPorDinheiro) {
+        this.barbeiroTotalPorDinheiro = barbeiroTotalPorDinheiro;
+    }
+
+    public BigDecimal getBarbeiroTotalPorDebito() {
+        return barbeiroTotalPorDebito;
+    }
+
+    public void setBarbeiroTotalPorDebito(BigDecimal barbeiroTotalPorDebito) {
+        this.barbeiroTotalPorDebito = barbeiroTotalPorDebito;
+    }
+
+    public BigDecimal getBarbeiroTotalPorCredito() {
+        return barbeiroTotalPorCredito;
+    }
+
+    public void setBarbeiroTotalPorCredito(BigDecimal barbeiroTotalPorCredito) {
+        this.barbeiroTotalPorCredito = barbeiroTotalPorCredito;
+    }
+
+    public BigDecimal getBarbeiroCustoProdutos() {
+        return barbeiroCustoProdutos;
+    }
+
+    public void setBarbeiroCustoProdutos(BigDecimal barbeiroCustoProdutos) {
+        this.barbeiroCustoProdutos = barbeiroCustoProdutos;
+    }
+
+    public BigDecimal getBarbeiroCustoServicos() {
+        return barbeiroCustoServicos;
+    }
+
+    public void setBarbeiroCustoServicos(BigDecimal barbeiroCustoServicos) {
+        this.barbeiroCustoServicos = barbeiroCustoServicos;
+    }
+
+    public BigDecimal getBarbeirototalCusto() {
+        return barbeirototalCusto;
+    }
+
+    public void setBarbeirototalCusto(BigDecimal barbeirototalCusto) {
+        this.barbeirototalCusto = barbeirototalCusto;
+    }
+    
 }

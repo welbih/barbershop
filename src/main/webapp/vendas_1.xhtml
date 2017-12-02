@@ -70,133 +70,69 @@
                             </button>
                         </div>
                         
-                        <div jsf:rendered="#{vendaController.atendimentos.size() != 0}" >
-                            <table class="table">
-                                <thead>
-                                    <tr><th colspan="4">Vendas da Barbearia #{vendaController.dataI} até #{vendaController.dataF}</th></tr>
-                                    <tbody>
-                                        <tr>
-                                            <td>Total</td>
-                                            <td>Produtos</td>
-                                            <td>Serviços</td>
-                                            <td>Total</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Custo</td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.totalCustoProdutos}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.totalCustoServicos}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td><td>
-                                                <h:outputText value="#{vendaController.totalCusto}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Lucro</td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.lucroProdutos}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.lucroServicos}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.valorTotalLucro}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Vendas</td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.valorTotalProdutos}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.valorTotalServicos}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.valorTotalVendas}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </thead>
-                            </table>
-                            <table class="table">
-                                <thead>
-                                    <tr><th colspan="4">Vendas por tipo de pagamento</th></tr>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td>Total</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Crédito</td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.totalPorCredito}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Débito</td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.totalPorDebito}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Dinheiro</td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.totalPorDinheiro}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total</td>
-                                            <td>
-                                                <h:outputText value="#{vendaController.valorTotalVendas}">
-                                                    <f:convertNumber type="currency" locale="pt_BR"/>
-                                                </h:outputText>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </thead>
-                            </table>
-                        </div>
-                        
-                        <div>
-                            <div class="form-group">
-                                <label for="acesso">Barbeiro</label>
-                                <select class="form-control"
-                                        jsf:value="#{vendaController.barbeiro}" 
-                                    jsf:id="barbeiro" 
-                                    jsf:required="true"
-                                    jsf:requiredMessage="Selecione o Barbeiro."
-                                    size="1" >
-                                <f:selectItem itemLabel="Selecione" />
-                                <f:selectItems value="#{vendaController.barbeiros}"
-                                               itemValue="#{barbeiro}"
-                                               var="barbeiro"
-                                               itemLabel="#{barbeiro.nome}" />
-                            </select>
+                        <div class="form-group" 
+                             jsf:id="valorTotal" 
+                             jsf:rendered="#{vendaController.atendimentos.size() != 0}">
+                            
+                            <h2>Período de #{vendaController.dataI} até #{vendaController.dataF}</h2>
+                            
+                            <label for="valor">Valor das vendas</label>
+                            <div>
+                                <h:outputText value="#{vendaController.valorTotalVendas}" id="totalVendas" >
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            <label for="valor">Valor das vendas dos Produtos </label>
+                            <div>
+                                <h:outputText value="#{vendaController.valorTotalProdutos}" id="totalVendasProdutos">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            <label for="valor">Valor das vendas dos Servicos </label>
+                            <div>
+                                <h:outputText value="#{vendaController.valorTotalServicos}" id="totalVendasServicos">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            
+                            <label for="lucro">Total do lucro</label>
+                            <div>
+                                <h:outputText value="#{vendaController.valorTotalLucro}" id="totalLucro">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            
+                            <label for="lucro">Total do lucro dos Produtos</label>
+                            <div>
+                                <h:outputText value="#{vendaController.lucroProdutos}" id="totalLucroProdutos">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            
+                            <label for="lucro">Total do lucro dos Servicos</label>
+                            <div>
+                                <h:outputText value="#{vendaController.lucroServicos}" id="totalLucroServicos">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            
+                            <label for="lucro">Total por Dinheiro</label>
+                            <div>
+                                <h:outputText value="#{vendaController.totalPorDinheiro}" id="totalDinheiro">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            <label for="lucro">Total por Débito</label>
+                            <div>
+                                <h:outputText value="#{vendaController.totalPorDebito}" id="totalDebito">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
+                            </div>
+                            <label for="lucro">Total por Crédito</label>
+                            <div>
+                                <h:outputText value="#{vendaController.totalPorCredito}" id="totalCredito">
+                                    <f:convertNumber type="currency" locale="pt_BR"/>
+                                </h:outputText>
                             </div>
                         </div>
                     </form>
