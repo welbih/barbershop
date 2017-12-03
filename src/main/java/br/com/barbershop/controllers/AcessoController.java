@@ -148,6 +148,10 @@ public class AcessoController implements Serializable
                 exceto(Acesso.BARBEIRO)));
         getRestricoesAcesso().put("usuarios", Arrays.asList(Acesso.
                 exceto(Acesso.BARBEIRO)));
+        getRestricoesAcesso().put("vendasBarbeiro", Arrays.asList(Acesso.
+                exceto(Acesso.BARBEIRO)));
+        getRestricoesAcesso().put("vendas", Arrays.asList(Acesso.
+                values()));
         getRestricoesAcesso().put("login", Arrays.asList());
     }
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">

@@ -53,8 +53,8 @@ public class VendaController implements Serializable{
     private BigDecimal barbeiroTotalLucro;
     private BigDecimal barbeiroTotalProdutos;
     private BigDecimal barbeiroTotalServicos;
-    private BigDecimal barbeirolucroProdutos;
-    private BigDecimal barbeirolucroServicos;
+    private BigDecimal barbeiroLucroProdutos;
+    private BigDecimal barbeiroLucroServicos;
     private BigDecimal barbeiroTotalPorDinheiro;
     private BigDecimal barbeiroTotalPorDebito;
     private BigDecimal barbeiroTotalPorCredito;
@@ -70,6 +70,7 @@ public class VendaController implements Serializable{
     private UsuarioDao usuarioDao;
     
     private List<Atendimento> atendimentos;
+    private List<Atendimento> barbeiroAtendimentos;
 
     private String dataI, dataF;
 
@@ -90,10 +91,10 @@ public class VendaController implements Serializable{
         setAtendimentos(new ArrayList<>());
         setBarbeiro(new Usuario());
         setBarbeiros(new ArrayList<>());
+        setBarbeiroAtendimentos(new ArrayList<>());
     }
         
     public void vendas() {
-        System.out.println("Barbeiro selecionado: " + getBarbeiro().getNome());
         setDataInicial(converterData(getDataI()));
         setDataFinal(converterData(getDataF()));
 
@@ -158,8 +159,6 @@ public class VendaController implements Serializable{
                 } catch (NullPointerException e) {
                     // 
                 } 
-                System.out.println(getAtendimentoProdutoDao().valorTotalProdutos(a.getId()));
-                System.out.println(totalProduto);
             }
             setValorTotalProdutos(totalProduto);
             
@@ -170,10 +169,8 @@ public class VendaController implements Serializable{
                 } catch (NullPointerException e) {
                     // 
                 } 
-                System.out.println("Calculando valor de custo do produtos" + somaCustoProduto);
             }
             setTotalCustoProdutos(somaCustoProduto);
-            System.out.println("Passando o valor total do custo." + getTotalCustoProdutos());
             
             BigDecimal lucroProduto = new BigDecimal(0);
             for(Atendimento a : getAtendimentos()) {
@@ -182,7 +179,6 @@ public class VendaController implements Serializable{
                 } catch (NullPointerException e) {
                     //
                 }
-                System.out.println("Valor do lucro produtos " + lucroProduto);
             }
             setLucroProdutos(lucroProduto);
             
@@ -208,7 +204,6 @@ public class VendaController implements Serializable{
                     getAtendimentos().size() != 0) {
 
             BigDecimal totalProduto = new BigDecimal(0);
-            System.out.println(getAtendimentos().size());
             for(Atendimento a : getAtendimentos()) {
                 try {
                     totalProduto = totalProduto.add(getAtendimentoProdutoDao().valorTotalProdutos(a.getId()));
@@ -245,73 +240,75 @@ public class VendaController implements Serializable{
     }
     
     public void vendasBarbeiro() {
-        getBarbeiro();
+        setDataInicial(converterData(getDataI()));
+        setDataFinal(converterData(getDataF()));
         
-        if(getUsuarioLogado().getUsuario().getAcesso().equals(Acesso.BARBEIRO)) {
-            setValorTotalVendas(getAtendimentoDao().totalVendas(
+        if(getBarbeiro() != null) {
+            setBarbeiroTotalVendas(getAtendimentoDao().totalVendas(
                                     getDataInicial(), 
                                     getDataFinal(), 
-                                    getUsuarioLogado().getUsuario()));
-            setAtendimentos(getAtendimentoDao().porDataEBarbeiro(
+                                    getBarbeiro()));
+            setBarbeiroAtendimentos(getAtendimentoDao().porDataEBarbeiro(
                                     getDataInicial(), 
                                     getDataFinal(), 
-                                    getUsuarioLogado().getUsuario()));
-            setTotalPorDinheiro(getAtendimentoDao().porDataETipoPagamentoEUsuario(
+                                    getBarbeiro()));
+            setBarbeiroTotalPorDinheiro(getAtendimentoDao().porDataETipoPagamentoEUsuario(
                                     getDataInicial(), 
                                     getDataFinal(), 
                                     TipoPagamento.DINHEIRO, 
-                                    getUsuarioLogado().getUsuario()));
-            setTotalPorDebito(getAtendimentoDao().porDataETipoPagamentoEUsuario(
+                                    getBarbeiro()));
+            setBarbeiroTotalPorDebito(getAtendimentoDao().porDataETipoPagamentoEUsuario(
                                     getDataInicial(), 
                                     getDataFinal(), 
                                     TipoPagamento.CARTAO_DEBITO, 
-                                    getUsuarioLogado().getUsuario()));
-            setTotalPorCredito(getAtendimentoDao().porDataETipoPagamentoEUsuario(
+                                    getBarbeiro()));
+            setBarbeiroTotalPorCredito(getAtendimentoDao().porDataETipoPagamentoEUsuario(
                                     getDataInicial(), 
                                     getDataFinal(), 
                                     TipoPagamento.CARTAO_CREDITO, 
-                                    getUsuarioLogado().getUsuario()));
+                                    getBarbeiro()));
         }
-        
-        if(getUsuarioLogado().getUsuario().getAcesso().equals(Acesso.BARBEIRO) &&
-            getAtendimentos().size() != 0) {
+
+        if(getBarbeiroAtendimentos().size() == 0) {
+            JSF.addErrorMessage("Não há vendas nesse período para o barbeiro " +getBarbeiro().getNome()+". Tente outras datas ou selecione outro barbeiro.");
+        }
+
+        if(getBarbeiro() != null && getBarbeiroAtendimentos().size() != 0) {
 
             BigDecimal totalProduto = new BigDecimal(0);
-            System.out.println(getAtendimentos().size());
-            for(Atendimento a : getAtendimentos()) {
+            for(Atendimento a : getBarbeiroAtendimentos()) {
                 try {
                     totalProduto = totalProduto.add(getAtendimentoProdutoDao().valorTotalProdutos(a.getId()));
                 } catch (NullPointerException e) {
                     //
                 } 
             }
-            setValorTotalProdutos(totalProduto);
+            setBarbeiroTotalProdutos(totalProduto);
             
             BigDecimal lucroProduto = new BigDecimal(0);
-            for(Atendimento a : getAtendimentos()) {
+            for(Atendimento a : getBarbeiroAtendimentos()) {
                 try {
                     lucroProduto = lucroProduto.add(getAtendimentoProdutoDao().lucroProdutos(a.getId()));
                 } catch (NullPointerException e) {
                     //
                 }
             }
-            setLucroProdutos(lucroProduto.multiply(BigDecimal.valueOf(0.10)));
+            setBarbeiroLucroProdutos(lucroProduto.multiply(BigDecimal.valueOf(0.10)));
             
             BigDecimal totalServico = new BigDecimal(0);
-            for(Atendimento a : getAtendimentos()) {
+            for(Atendimento a : getBarbeiroAtendimentos()) {
                 try {
                     totalServico = totalServico.add(getAtendimentoServicoDao().totalServicos(a.getId()));
                 } catch (NullPointerException e) {
                     //
                 }
             }
-            setValorTotalServicos(totalServico);
+            setBarbeiroTotalServicos(totalServico);
             
-            setLucroServicos(getValorTotalServicos().divide(BigDecimal.valueOf(2)));
+            setBarbeiroLucroServicos(getBarbeiroTotalServicos().divide(BigDecimal.valueOf(2)));
             
-            setValorTotalLucro(getLucroProdutos().add(getLucroServicos()));
+            setBarbeiroTotalLucro(getBarbeiroLucroProdutos().add(getBarbeiroLucroServicos()));
         }
-        
     }
         
     private LocalDate converterData(String data) {
@@ -489,20 +486,20 @@ public class VendaController implements Serializable{
         this.barbeiroTotalServicos = barbeiroTotalServicos;
     }
 
-    public BigDecimal getBarbeirolucroProdutos() {
-        return barbeirolucroProdutos;
+    public BigDecimal getBarbeiroLucroProdutos() {
+        return barbeiroLucroProdutos;
     }
 
-    public void setBarbeirolucroProdutos(BigDecimal barbeirolucroProdutos) {
-        this.barbeirolucroProdutos = barbeirolucroProdutos;
+    public void setBarbeiroLucroProdutos(BigDecimal barbeiroLucroProdutos) {
+        this.barbeiroLucroProdutos = barbeiroLucroProdutos;
     }
 
-    public BigDecimal getBarbeirolucroServicos() {
-        return barbeirolucroServicos;
+    public BigDecimal getBarbeiroLucroServicos() {
+        return barbeiroLucroServicos;
     }
 
-    public void setBarbeirolucroServicos(BigDecimal barbeirolucroServicos) {
-        this.barbeirolucroServicos = barbeirolucroServicos;
+    public void setBarbeiroLucroServicos(BigDecimal barbeiroLucroServicos) {
+        this.barbeiroLucroServicos = barbeiroLucroServicos;
     }
 
     public BigDecimal getBarbeiroTotalPorDinheiro() {
@@ -536,21 +533,22 @@ public class VendaController implements Serializable{
     public void setBarbeiroCustoProdutos(BigDecimal barbeiroCustoProdutos) {
         this.barbeiroCustoProdutos = barbeiroCustoProdutos;
     }
-
     public BigDecimal getBarbeiroCustoServicos() {
         return barbeiroCustoServicos;
     }
-
     public void setBarbeiroCustoServicos(BigDecimal barbeiroCustoServicos) {
         this.barbeiroCustoServicos = barbeiroCustoServicos;
     }
-
     public BigDecimal getBarbeirototalCusto() {
         return barbeirototalCusto;
     }
-
     public void setBarbeirototalCusto(BigDecimal barbeirototalCusto) {
         this.barbeirototalCusto = barbeirototalCusto;
     }
-    
+    public List<Atendimento> getBarbeiroAtendimentos() {
+        return barbeiroAtendimentos;
+    }
+    public void setBarbeiroAtendimentos(List<Atendimento> barbeiroAtendimentos) {
+        this.barbeiroAtendimentos = barbeiroAtendimentos;
+    }
 }

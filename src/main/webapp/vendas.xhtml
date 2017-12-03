@@ -70,18 +70,20 @@
                             </button>
                         </div>
                         
-                        <div jsf:rendered="#{vendaController.atendimentos.size() != 0}" >
+                        <div jsf:rendered="#{vendaController.atendimentos.size() != 0}" table="table-barbearia">
                             <table class="table">
                                 <thead>
-                                    <tr><th colspan="4">Vendas da Barbearia #{vendaController.dataI} até #{vendaController.dataF}</th></tr>
+                                    <tr><th colspan="4">Vendas #{acessoController.usuario.acesso != 'BARBEIRO' ? 'da Barbearia' : "do Barbeiro"} 
+                                                                    #{vendaController.dataI} até #{vendaController.dataF}</th>
+                                    </tr>
                                     <tbody>
                                         <tr>
-                                            <td>Total</td>
+                                            <td></td>
                                             <td>Produtos</td>
                                             <td>Serviços</td>
                                             <td>Total</td>
                                         </tr>
-                                        <tr>
+                                        <tr jsf:rendered="#{acessoController.usuario.acesso != 'BARBEIRO'}">
                                             <td>Custo</td>
                                             <td>
                                                 <h:outputText value="#{vendaController.totalCustoProdutos}">
@@ -139,7 +141,7 @@
                             </table>
                             <table class="table">
                                 <thead>
-                                    <tr><th colspan="4">Vendas por tipo de pagamento</th></tr>
+                                    <tr><th colspan="4">Vendas por forma de pagamento</th></tr>
                                     <tbody>
                                         <tr>
                                             <td></td>
@@ -181,30 +183,11 @@
                                 </thead>
                             </table>
                         </div>
-                        
-                        <div>
-                            <div class="form-group">
-                                <label for="acesso">Barbeiro</label>
-                                <select class="form-control"
-                                        jsf:value="#{vendaController.barbeiro}" 
-                                    jsf:id="barbeiro" 
-                                    jsf:required="true"
-                                    jsf:requiredMessage="Selecione o Barbeiro."
-                                    size="1" >
-                                <f:selectItem itemLabel="Selecione" />
-                                <f:selectItems value="#{vendaController.barbeiros}"
-                                               itemValue="#{barbeiro}"
-                                               var="barbeiro"
-                                               itemLabel="#{barbeiro.nome}" />
-                            </select>
-                            </div>
-                        </div>
                     </form>
                 </div>
                 
-                <form jsf:prependId="false" id="form-table">
+                <form jsf:prependId="false" jsf:id="form-vendas">
                 <div class="row" jsf:id="atendimentos">
-
                     <h:dataTable value="#{vendaController.atendimentos}" 
                                  class="table"
                                  var="atendimento" 

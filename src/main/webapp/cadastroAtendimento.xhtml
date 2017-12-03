@@ -49,7 +49,7 @@
                                     jsf:id="servico" 
                                     required="#{!param.paramValidation}"
                                     jsf:required="#{!param.paramValidation}"
-                                    jsf:requiredMessage="tipo de servico de ser selecionado"
+                                    jsf:requiredMessage="Servico deve ser selecionado."
                                     size="1" >
                                 <f:selectItems itemLabel="#{select.nome}" 
                                                itemValue="#{select}"
@@ -76,7 +76,7 @@
                                     jsf:id="quantidadeServico" 
                                     required="#{!param.paramValidation}"
                                     jsf:required="#{!param.paramValidation}"
-                                    jsf:requiredMessage="tipo de quantidade de ser selecionado"
+                                    jsf:requiredMessage="Quantidade de serviço deve ser selecionado."
                                     size="1" >
                                 <f:selectItems value="#{enunsController.quantidade}"
                                                itemValue="#{quantidade.nome}"
@@ -143,7 +143,7 @@
                                         jsf:id="produto" 
                                         required="#{!param.paramValidation}"
                                         jsf:required="#{!param.paramValidation}"
-                                        jsf:requiredMessage="tipo de produto deve ser selecionado"
+                                        jsf:requiredMessage="Produto deve ser selecionado."
                                         size="1" >
                                     <f:selectItems itemLabel="#{select.nome}" 
                                                itemValue="#{select}"
@@ -171,7 +171,7 @@
                                         jsf:id="quantidadeProduto" 
                                         required="#{!param.paramValidation}"
                                         jsf:required="#{!param.paramValidation}"
-                                        jsf:requiredMessage="quantidade deve ser selecionado"
+                                        jsf:requiredMessage="Quantidade de produto deve ser selecionado."
                                         size="1" >
                                     <f:selectItems value="#{enunsController.quantidade}"
                                                    itemValue="#{quantidade.nome}"
@@ -229,7 +229,7 @@
                                         jsf:value="#{atendimentoController.atendimento.tipoPagamento}" 
                                     jsf:id="tipoPagamento" 
                                     jsf:required="true"
-                                    jsf:requiredMessage="Tipo de pagamento de ser selecionado"
+                                    jsf:requiredMessage="Tipo de pagamento deve ser selecionado."
                                     size="1" >
                                 <f:selectItem itemLabel="Selecione o tipo de pagamento" />
                                 <f:selectItems value="#{enunsController.tipoPagamento}"
