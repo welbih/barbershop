@@ -152,7 +152,7 @@
                                     <f:selectItems value="#{atendimentoController.produtos}"
                                                    itemValue="#{produto.id}"
                                                    var="produto"
-                                                   itemLabel="#{produto.nome} - R$ #{produto.valorVenda} - Estoque: #{produto.quantidadeEstoque}" />
+                                                   itemLabel="#{produto.nome} - R$ #{produto.valorVenda} - Estoque: #{produto.quantidade}" />
                                         <f:ajax  event="change" 
                                                  listener="#{atendimentoController.calculaProdutosEServicos()}"
                                                  execute="quantidadeProduto" 

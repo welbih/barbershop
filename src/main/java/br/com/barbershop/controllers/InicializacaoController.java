@@ -138,7 +138,7 @@ public class InicializacaoController {
         if(!produto1) {
             Produto produto = new Produto();
             produto.setNome(nome1);
-            produto.setQuantidadeEstoque(20);
+            produto.setQuantidade(20);
             produto.setValorCusto(BigDecimal.valueOf(3));
             produto.setValorVenda(BigDecimal.valueOf(5));
             
@@ -150,7 +150,7 @@ public class InicializacaoController {
         if(!produto2) {
             Produto produto = new Produto();
             produto.setNome(nome2);
-            produto.setQuantidadeEstoque(15);
+            produto.setQuantidade(15);
             produto.setValorCusto(BigDecimal.valueOf(13));
             produto.setValorVenda(BigDecimal.valueOf(16));
             

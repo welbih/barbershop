@@ -7,13 +7,17 @@ package br.com.barbershop.modelo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -34,31 +38,25 @@ public class AtendimentoProduto implements Serializable {
     private Produto produto;
     
     @ManyToOne
-    private Atendimento venda;
+    private Atendimento atendimento;
 
-    public AtendimentoProduto() {
-        setProduto(new Produto());
-    }
-    
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public int getQuantidade() {
         return quantidade;
     }
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-    public Atendimento getVenda() {
-        return venda;
+    public Atendimento getAtendimento() {
+        return atendimento;
     }
-    public void setVenda(Atendimento venda) {
-        this.venda = venda;
+    public void setAtendimento(Atendimento atendimento) {
+        this.atendimento = atendimento;
     }
     public Produto getProduto() {
         return produto;

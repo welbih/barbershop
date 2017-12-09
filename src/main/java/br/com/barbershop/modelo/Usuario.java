@@ -8,11 +8,14 @@ package br.com.barbershop.modelo;
 import br.com.barbershop.enums.Acesso;
 import br.com.barbershop.security.Senhas;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.br.CPF;
 
 /**
@@ -31,6 +34,9 @@ public class Usuario extends Pessoa implements Serializable{
     private Acesso acesso;
     
     public static int TAMANHO_SENHA = 8;
+    
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+    private List<Atendimento> atendimentos;
     
     public String getCpf() {
         return cpf;

@@ -41,11 +41,11 @@ public class Atendimento implements Serializable {
     @Column(precision = 7, scale = 2, name = "valor_total")
     private BigDecimal valorTotal;
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_pagamento")
+    @Column(name = "forma_pagamento")
     private TipoPagamento tipoPagamento;
-    @OneToMany(mappedBy = "venda", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "atendimento", cascade = CascadeType.REMOVE)
     private List<AtendimentoProduto> produtos;
-    @OneToMany(mappedBy = "venda", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "atendimento", cascade = CascadeType.REMOVE)
     private List<AtendimentoServico> servicos;
 
     public Atendimento() {

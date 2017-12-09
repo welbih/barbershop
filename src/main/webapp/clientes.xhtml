@@ -74,7 +74,7 @@
                     <form jsf:prependId="false" jsf:id="clientes">
                     <div class="row" jsf:id="client">
                         <span jsf:rendered="#{clienteController.clientes.size() == 0 and clienteController.camposPreenchidos()}">
-                            <b>Nenhum cliente cadastrado.</b>
+                            <b>Nenhum cliente encontrado.</b>
                         </span>
 
                         <h:dataTable value="#{clienteController.clientes}" 
@@ -123,7 +123,7 @@
                                     <span jsf:rendered="#{acessoController.usuario.acesso != 'BARBEIRO'}">
                                         <button type="button" 
                                             class="btn btn-danger"
-                                            data-target="#modal_remover_cliente#{x.index}"
+                                            data-target="#modal_remover_cliente#{clienteDT.rowIndex}"
                                             data-toggle="modal">
                                             <span class="glyphicon glyphicon-trash" 
                                                   aria-hidden="true">
@@ -132,7 +132,7 @@
                                     </span>
                                      <!-- Modal REMOVER convite -->
                                         <div class="modal fade bs-example-modal-lg" 
-                                             id="modal_remover_cliente#{x.index}" 
+                                             id="modal_remover_cliente#{clienteDT.rowIndex}" 
                                              tabindex="-1" 
                                              role="dialog" 
                                              aria-labelledby="myModalLabel">

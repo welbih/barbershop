@@ -39,7 +39,6 @@
                                      class="form-control" 
                                      jsf:id="nome" 
                                      maxlength="50"
-                                     required="true"
                                      placeholder="Digite o nome"
                                      jsf:required="true"
                                      jsf:requiredMessage="Nome deve ser informado."
@@ -52,9 +51,9 @@
                                        jsf:id="valorCusto" 
                                        maxlength="9"
                                        placeholder="Digite o valor"
-                                       required="true"
+                                       jsf:validator="valorNegativo"
                                        jsf:required="true"
-                                       jsf:requiredMessage="Valor deve ser informado."
+                                       jsf:requiredMessage="Valor de custo deve ser informado."
                                        jsf:value="#{produtoController.produto.valorCusto}">
                                     <f:convertNumber maxFractionDigits="2"/>
                                 </input>
@@ -66,9 +65,9 @@
                                        jsf:id="valorVenda" 
                                        maxlength="9"
                                        placeholder="Digite o valor"
-                                       required="true"
+                                       jsf:validator="valorNegativo"
                                        jsf:required="true"
-                                       jsf:requiredMessage="Valor deve ser informado."
+                                       jsf:requiredMessage="Valor de venda deve ser informado."
                                        jsf:value="#{produtoController.produto.valorVenda}">
                                     <f:convertNumber maxFractionDigits="2"/>
                                 </input>
@@ -76,22 +75,22 @@
                             <div class="form-group">
                                 <label for="quantidade">Quantidade</label>
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control js-quantidade" 
                                        jsf:id="quantidade" 
-                                       required="true"
-                                       maxlength="12"
+                                       maxlength="3"
                                        placeholder="Digite a quantidade"
+                                       jsf:validator="menorIgualAZero"
                                        jsf:required="true"
                                        jsf:requiredMessage="Quantidade deve ser informado."
-                                       jsf:value="#{produtoController.produto.quantidadeEstoque}"/>
+                                       jsf:value="#{produtoController.produto.quantidade}">
+                                </input>
                             </div>
                             <div class="text-center">
-                                <button type="button" 
+                                <button type="submit" 
                                         class="btn btn-primary" 
                                         jsf:id="salvar"
                                         jsf:action="#{produtoController.salvar()}">
                                         Salvar
-                                        <f:ajax execute="valorVenda quantidade valorCusto nome"/>
                                 </button>
                             </div>
                         </form>

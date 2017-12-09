@@ -1,13 +1,14 @@
 $(document).ready(function(){
     habilitarMascaras();
     maskValor();
-    habilitarTooltip();
+    deabilitarSubmitButton();
 });
 
 function habilitarMascaras() {
     $(".js-celular").mask("(99) 99999-9999");
     $(".js-cpf").mask("999.999.999-99");
     $(".js-data").mask("99/99/9999");
+    $(".js-quantidade").mask("999");
 }
 
 function maskValor() {
@@ -19,9 +20,13 @@ function maskValor() {
         affixesStay: false});
 
 }
-function habilitarTooltip()
+function deabilitarSubmitButton()
 {
-    $('[data-toggle="tooltip"]').tooltip();
+    $('input').keypress(function (e) {
+         var code = null;
+         code = (e.keyCode ? e.keyCode : e.which);                
+         return (code == 13) ? false : true;
+    });
 }
 
 

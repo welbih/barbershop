@@ -56,7 +56,7 @@
                 <form jsf:prependId="false" jsf:id="produtos">
                 <div class="row" >
                     <span jsf:rendered="#{produtoController.produtos.size() == 0 and produtoController.campoPreenchido()}">
-                        <b>Nenhum produto cadastrado.</b>
+                        <b>Nenhum produto encontrado.</b>
                     </span>
                     
                     <h:dataTable value="#{produtoController.produtos}" 
@@ -75,7 +75,7 @@
                             <f:facet name="header">
                                 Quantidade
                             </f:facet>
-                            #{produto.quantidadeEstoque}
+                            #{produto.quantidade}
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -114,7 +114,7 @@
                                 <span jsf:rendered="#{usuarioLogadoController.usuario.acesso != 'BARBEIRO'}">
                                     <button type="button" 
                                         class="btn btn-danger"
-                                        data-target="#modal_remover_produto#{x.index}"
+                                        data-target="#modal_remover_produto#{produtoDT.rowIndex}"
                                         data-toggle="modal">
                                         <span class="glyphicon glyphicon-trash" 
                                               aria-hidden="true">
@@ -123,7 +123,7 @@
                                 </span>
                                  <!-- Modal REMOVER convite -->
                                     <div class="modal fade bs-example-modal-lg" 
-                                         id="modal_remover_produto#{x.index}" 
+                                         id="modal_remover_produto#{produtoDT.rowIndex}" 
                                          tabindex="-1" 
                                          role="dialog" 
                                          aria-labelledby="myModalLabel">

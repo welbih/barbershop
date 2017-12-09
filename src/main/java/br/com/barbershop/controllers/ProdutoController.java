@@ -9,6 +9,7 @@ import br.com.barbershop.daos.ProdutoDao;
 import br.com.barbershop.modelo.Produto;
 import br.com.barbershop.web.JSF;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -39,6 +40,9 @@ public class ProdutoController implements Serializable{
     public String salvar() {
         if(getProdutoDao().porNome(getProduto().getNome().toLowerCase()) && getProduto().getId() == null)
             JSF.addValidationError("Já existe um produto com esse nome.");
+        
+        if(getProduto().getValorVenda().compareTo(getProduto().getValorCusto()) < 0)
+            JSF.addValidationError("Valor de venda deve ser maior do que valor custo.");
         
         if(JSF.hasErrors())
             return null;

@@ -221,7 +221,7 @@ public class AtendimentoController implements Serializable{
                     
                     Produto produto = getProdutoDao().find(Long.valueOf(nome.get("id")));
                     Integer quantidadeSelecionada = Integer.valueOf(nome.get("quantidade"));
-                    if(quantidadeSelecionada > produto.getQuantidadeEstoque()) {
+                    if(quantidadeSelecionada > produto.getQuantidade()) {
                         JSF.addErrorMessage(produto.getNome() + " não possui essa quantidade em estoque");
                         validacaoOk = false;
                     }
@@ -253,7 +253,7 @@ public class AtendimentoController implements Serializable{
                     getAtendimentoServico().setServico(servico);
                     getAtendimentoServico().setQuantidade(quantidade);
                     getAtendimentoServico().setValorServico(valorUnitario);
-                    getAtendimentoServico().setVenda(getAtendimento());
+                    getAtendimentoServico().setAtendimento(getAtendimento());
                     
                     getAtendimento().adicionarServico(getAtendimentoServico());
                     getAtendimentoServicoDao().create(getAtendimentoServico());
@@ -268,7 +268,7 @@ public class AtendimentoController implements Serializable{
                     BigDecimal valorVenda = produto.getValorVenda();
                     BigDecimal valorCusto = produto.getValorCusto();
                     Integer quantidade = Integer.valueOf(nome.get("quantidade"));
-                    produto.setQuantidadeEstoque(produto.getQuantidadeEstoque()- quantidade);
+                    produto.setQuantidade(produto.getQuantidade()- quantidade);
                     
                     getProdutoDao().edit(produto);
                 
@@ -276,7 +276,7 @@ public class AtendimentoController implements Serializable{
                     getAtendimentoProduto().setQuantidade(quantidade);
                     getAtendimentoProduto().setValorCusto(valorCusto);
                     getAtendimentoProduto().setValorVenda(valorVenda);
-                    getAtendimentoProduto().setVenda(getAtendimento());
+                    getAtendimentoProduto().setAtendimento(getAtendimento());
             
                     getAtendimento().adicionarProduto(getAtendimentoProduto());
                     getAtendimentoProdutoDao().create(getAtendimentoProduto());

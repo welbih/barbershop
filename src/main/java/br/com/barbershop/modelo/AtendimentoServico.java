@@ -7,6 +7,7 @@ package br.com.barbershop.modelo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,42 +32,31 @@ public class AtendimentoServico implements Serializable {
     @ManyToOne
     private Servico servico;
     @ManyToOne
-    private Atendimento venda;
-
-    public AtendimentoServico() {
-        setVenda(new Atendimento());
-    }
+    private Atendimento atendimento;
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public int getQuantidade() {
         return quantidade;
     }
-
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-
     public BigDecimal getValorServico() {
         return valorServico;
     }
-
     public void setValorServico(BigDecimal valorServico) {
         this.valorServico = valorServico;
     }
-
-    public Atendimento getVenda() {
-        return venda;
+    public Atendimento getAtendimento() {
+        return atendimento;
     }
-
-    public void setVenda(Atendimento venda) {
-        this.venda = venda;
+    public void setAtendimento(Atendimento atendimento) {
+        this.atendimento = atendimento;
     }
     public Servico getServico() {
         return servico;

@@ -50,6 +50,7 @@
                                        jsf:id="valor" 
                                        maxlength="9"
                                        placeholder="Digite o valor"
+                                       jsf:validator="valorNegativo"
                                        jsf:required="true"
                                        jsf:requiredMessage="Valor deve ser informado."
                                        jsf:value="#{servicoController.servico.valor}">
@@ -57,12 +58,11 @@
                                 </input>
                             </div>
                             <div class="text-center">
-                                <button type="button" 
+                                <button type="submit" 
                                         class="btn btn-primary" 
                                         jsf:id="salvar"
                                         jsf:action="#{servicoController.salvar()}">
                                         Salvar
-                                        <f:ajax execute="valor nome"/>
                                 </button>
                             </div>
                         </form>

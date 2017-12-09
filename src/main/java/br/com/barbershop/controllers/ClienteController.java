@@ -52,7 +52,7 @@ public class ClienteController implements Serializable{
             getClienteDao().edit(getCliente());
             FacesContext.getCurrentInstance().getExternalContext()
                 .getFlash().setKeepMessages(true);
-            JSF.addSuccessMessage("Cliente editado com sucesso!");
+            JSF.addSuccessMessage("Cliente editado com sucesso.");
             return "clientes?faces-redirect=true";
         }
     }
@@ -86,8 +86,8 @@ public class ClienteController implements Serializable{
     }
     
     public boolean camposPreenchidos() {
-        return true? getCliente().getNome() != null 
-                || getCliente().getCelular() != null : false;
+        return true? getNome() != null 
+                || getCelular() != null : false;
     }
     
     public String selecionarCliente()

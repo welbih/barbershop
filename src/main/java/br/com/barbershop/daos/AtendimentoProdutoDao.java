@@ -40,7 +40,7 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
     
     public List<AtendimentoProduto> porVenda(Long vendaId) {
         TypedQuery<AtendimentoProduto> query = getEntityManager().createQuery("select a from "
-                + "AtendimentoProduto a where a.venda.id = :vendaId"
+                + "AtendimentoProduto a where a.atendimento.id = :vendaId"
                 , AtendimentoProduto.class)
                 .setParameter("vendaId", vendaId);
         
@@ -49,7 +49,7 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
     
     public BigDecimal lucroProdutos(Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda - a.valorCusto) from AtendimentoProduto a "
-                    + "where a.venda.id = :idAtendimento", BigDecimal.class)
+                    + "where a.atendimento.id = :idAtendimento", BigDecimal.class)
                                 .setParameter("idAtendimento", idAtendimento);
         
         return query.getSingleResult();
@@ -57,7 +57,7 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
     
     public BigDecimal valorTotalProdutos(Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda) from AtendimentoProduto a "
-                    + "where a.venda.id = :idAtendimento", BigDecimal.class)
+                    + "where a.atendimento.id = :idAtendimento", BigDecimal.class)
                                 .setParameter("idAtendimento", idAtendimento);
         
         return query.getSingleResult();
@@ -65,7 +65,7 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
     
     public BigDecimal valorTotalCustoProdutos(Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorCusto) from AtendimentoProduto a "
-                    + "where a.venda.id = :idAtendimento", BigDecimal.class)
+                    + "where a.atendimento.id = :idAtendimento", BigDecimal.class)
                                 .setParameter("idAtendimento", idAtendimento);
         
         return query.getSingleResult();
@@ -73,7 +73,7 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
     
     public BigDecimal lucroPorDataEId(LocalDate dataInicial, LocalDate dataFinal, Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda - a.valorCusto) from AtendimentoProduto a "
-                    + "where data between :dataInicial and :dataFinal and a.venda.id = :id", BigDecimal.class)
+                    + "where data between :dataInicial and :dataFinal and a.atendimento.id = :id", BigDecimal.class)
                                 .setParameter("dataInicial", dataInicial)
                                 .setParameter("dataFinal", dataFinal)
                                 .setParameter("id", idAtendimento);

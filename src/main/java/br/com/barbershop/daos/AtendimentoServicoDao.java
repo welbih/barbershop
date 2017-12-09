@@ -37,7 +37,7 @@ public class AtendimentoServicoDao extends AbstractDao<AtendimentoServico>{
     }
     public List<AtendimentoServico> porVenda(Long vendaId) {
         TypedQuery<AtendimentoServico> query = getEntityManager().createQuery("select a from "
-                + "AtendimentoServico a where a.venda.id = :vendaId"
+                + "AtendimentoServico a where a.atendimento.id = :vendaId"
                 , AtendimentoServico.class)
                 .setParameter("vendaId", vendaId);
         
@@ -46,7 +46,7 @@ public class AtendimentoServicoDao extends AbstractDao<AtendimentoServico>{
     
     public BigDecimal totalServicos(Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorServico) from AtendimentoServico a "
-                    + "where a.venda.id = :idAtendimento", BigDecimal.class)
+                    + "where a.atendimento.id = :idAtendimento", BigDecimal.class)
                                 .setParameter("idAtendimento", idAtendimento);
         
         return query.getSingleResult();

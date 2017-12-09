@@ -11,7 +11,7 @@ package br.com.barbershop.enums;
  */
 public enum TipoPagamento {
     CARTAO_CREDITO("Cartão de Crédito"),
-    CARTAO_DEBITO("Cartão de débito"),
+    CARTAO_DEBITO("Cartão de Débito"),
     DINHEIRO("Dinheiro");
     
     private String nome;
