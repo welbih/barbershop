@@ -22,18 +22,18 @@ import javax.persistence.OneToMany;
 public class Cliente extends Pessoa implements Serializable{
     
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
-    private List<Atendimento> atendimento;
+    private List<Atendimento> atendimentos;
 
-    public Cliente() {
-        setAtendimento(new ArrayList<>());
-    }
-
-    public List<Atendimento> getAtendimento() {
-        return atendimento;
-    }
-
-    public void setAtendimento(List<Atendimento> atendimento) {
-        this.atendimento = atendimento;
-    }
-    
+//    public Cliente() {
+//        setAtendimento(new ArrayList<>());
+//    }
+//
+//    public List<Atendimento> getAtendimento() {
+//        return atendimento;
+//    }
+//
+//    public void setAtendimento(List<Atendimento> atendimento) {
+//        this.atendimento = atendimento;
+//    }
+//    
 }

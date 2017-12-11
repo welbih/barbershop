@@ -17,6 +17,7 @@
     <body jsf:id="body">
         
         <f:metadata>
+            <o:viewParam name="servicoId" value="#{servicoController.servico}"/>
             <f:event listener="#{acessoController.redirecionar()}"
                  type="preRenderView" />
         </f:metadata>

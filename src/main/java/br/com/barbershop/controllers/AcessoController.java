@@ -114,7 +114,7 @@ public class AcessoController implements Serializable
         
         getUsuario().setSenha(Senhas.criptografar(getNovaSenha()));
         getUsuarioDao().edit(getUsuario());
-        setUsuario(getUsuarioDao().porEmail(getUsuario().getEmail()));
+//        setUsuario(getUsuarioDao().porEmail(getUsuario().getEmail()));
         
         JSF.addSuccessMessage("Senha alterada com sucesso.");
         return "alterarSenha";

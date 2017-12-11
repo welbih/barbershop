@@ -9,7 +9,6 @@ import br.com.barbershop.enums.TipoPagamento;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -63,10 +62,6 @@ public class Atendimento implements Serializable {
 
     public LocalDate getData() {
         return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
     }
 
     public Usuario getUsuario() {
