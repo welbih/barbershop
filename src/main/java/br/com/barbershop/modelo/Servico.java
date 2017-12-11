@@ -18,7 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
- *
+ * classe associada ao Serviço
  * @author Sniper
  */
 @Entity
@@ -34,10 +34,7 @@ public class Servico implements Serializable {
     @OneToMany(mappedBy = "servico", cascade = CascadeType.REMOVE)
     private List<AtendimentoServico> atendimentos;
 
-    public Servico() {
-        setAtendimentos(new ArrayList<>());
-    }
-    
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Long getId() {
         return id;
     }
@@ -60,10 +57,5 @@ public class Servico implements Serializable {
     public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
-    public List<AtendimentoServico> getAtendimentos() {
-        return atendimentos;
-    }
-    public void setAtendimentos(List<AtendimentoServico> atendimentos) {
-        this.atendimentos = atendimentos;
-    }
+    //</editor-fold>
 }

@@ -6,14 +6,13 @@
 package br.com.barbershop.web;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 /**
- *
+ * classe com metodos estáticos para manipulação do JSF. messages e redirect.
  * @author Sniper
  */
 public class JSF {
@@ -27,15 +26,6 @@ public class JSF {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
                 message, message);
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-    }
-    /**
-     * Adiciona uma lista de mensagens de erro ao contexto.
-     * @param messages mensagens de erro
-     */
-    public static void addErrorMessages(List<String> messages)
-    {
-        for (String message : messages)
-            addErrorMessage(message);
     }
     /**
      * Adiciona uma mensagem de sucesso ao contexto.

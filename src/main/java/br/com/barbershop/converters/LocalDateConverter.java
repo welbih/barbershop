@@ -14,7 +14,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 /**
- *
+ * Converter uma localDate para o formato brasileiro.
  * @author darkSniper
  */
 @FacesConverter(forClass = LocalDate.class)

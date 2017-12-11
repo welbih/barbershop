@@ -9,7 +9,6 @@ import br.com.barbershop.daos.ProdutoDao;
 import br.com.barbershop.modelo.Produto;
 import br.com.barbershop.web.JSF;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -18,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * classe controladora associada ao produto.
  * @author Sniper
  */
 @Named
@@ -32,11 +31,19 @@ public class ProdutoController implements Serializable{
     
     private List<Produto> produtos;
 
+    /**
+     * construtor instanciando algum atributos da classe.
+     */
     ProdutoController() {
         setProduto(new Produto());
         setProdutos(new ArrayList<>());
     }
     
+    /**
+     * salva ou edita um produto.
+     * realiza algumas validações
+     * @return página a seguir no sistema. 
+     */
     public String salvar() {
         if(getProdutoDao().porNome(getProduto().getNome().toLowerCase()) && getProduto().getId() == null)
             JSF.addValidationError("Já existe um produto com esse nome.");
@@ -62,6 +69,11 @@ public class ProdutoController implements Serializable{
         }
     }
     
+    /**
+     * remove um produto selecionado.
+     * @param produto a ser excluído
+     * @return página a seguir no sistema. 
+     */
     public String remover(Produto produto) {
         getProdutoDao().remove(produto);
         FacesContext.getCurrentInstance().getExternalContext()
@@ -69,6 +81,10 @@ public class ProdutoController implements Serializable{
         JSF.addSuccessMessage("Produto removido com sucesso!");
         return "produtos?faces-redirect=true";
     }
+    
+    /**
+     * filtra os produtos de acordo com a busca.
+     */
     public void filtrar()
     {
         if (getProduto().getNome().isEmpty()) {
@@ -86,10 +102,15 @@ public class ProdutoController implements Serializable{
         }
     }
     
+    /**
+     * verifica se os campos da busca de produtos foram preenchidos 
+     * @return true ou false
+     */
     public boolean campoPreenchido() {
         return true ? getProduto().getNome() != null : false;
     }
     
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Produto getProduto() {
         return produto;
     }
@@ -113,6 +134,6 @@ public class ProdutoController implements Serializable{
     public boolean isEditando() {
         return getProduto().getId() != null;
     }
-    
+    //</editor-fold>
 }
 

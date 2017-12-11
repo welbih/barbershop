@@ -11,14 +11,13 @@ import br.com.barbershop.web.JSF;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * classe controladora associada ao serviço.
  * @author Sniper
  */
 @Named
@@ -31,11 +30,19 @@ public class ServicoController implements Serializable{
     @Inject
     private ServicoDao servicoDao;
 
+    /**
+     * construtor iniciando alguns atributos.
+     */
     ServicoController() {
         setServico(new Servico());
         setServicos(new ArrayList<>());
     }
 
+    /**
+     * salva ou edita um serviço
+     * realiza uma validação.
+     * @return página a seguir no sistema
+     */
     public String salvar() {
         if(getServicoDao().porNome(getServico().getNome().toLowerCase()) && getServico().getId() == null)
             JSF.addValidationError("Já existe um serviço com esse nome.");
@@ -58,6 +65,11 @@ public class ServicoController implements Serializable{
         }
     }
     
+    /**
+     * remove um serviço 
+     * @param servico a ser removido 
+     * @return página a seguir no sistema.
+     */
     public String remover(Servico servico) {
         getServicoDao().remove(servico);
                 FacesContext.getCurrentInstance().getExternalContext()
@@ -65,6 +77,10 @@ public class ServicoController implements Serializable{
         JSF.addSuccessMessage("Serviço removido com sucesso.");
         return "servicos?faces-redirect=true";
     }
+    
+    /**
+     * filtra os serviços de acordo com a busca.
+     */
     public void filtrar()
     {
         if (getServico().getNome().isEmpty()) {
@@ -82,10 +98,15 @@ public class ServicoController implements Serializable{
         }
     }
     
+    /**
+     * verifica se os campos da busca de serviços foram preenchidos.
+     * @return true ou false.
+     */
     public boolean campoPreenchido() {
         return true ? getServico().getNome() != null : false;
     }
     
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Servico getServico() {
         return servico;
     }
@@ -105,7 +126,11 @@ public class ServicoController implements Serializable{
     public void setServicos(List<Servico> servicos) {
         this.servicos = servicos;
     }
-    
+    //</editor-fold>
+    /**
+     * verifica se um serviço está sendo editado. 
+     * @return true ou false.
+     */
     public boolean isEditando() {
         return getServico().getId() != null;
     }

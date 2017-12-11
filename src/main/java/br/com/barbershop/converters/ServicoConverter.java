@@ -14,7 +14,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 /**
- *
+ * classe converter que converter um id em um serviço.
  * @author darkSniper
  */
 @FacesConverter(forClass = Servico.class)

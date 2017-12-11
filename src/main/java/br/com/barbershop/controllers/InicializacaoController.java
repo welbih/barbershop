@@ -22,7 +22,7 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 
 /**
- *
+ * classe controladora associada ao inicialização do sistema.
  * @author darkSniper
  */
 @Singleton
@@ -38,11 +38,19 @@ public class InicializacaoController {
     @Inject
     private ServicoDao servicoDao;
     
+    /**
+     * metodo chamado quando a classe é acionada.
+     * chama o metodo criarUsuarios().
+     */
     @PostConstruct
     public void iniciar() {
         this.criarUsuarios();
     }
     
+    /**
+     * metodo para criar usuários no sistema
+     * serviços e produtos, caso não estejam criados.
+     */
     private void criarUsuarios(){
         String adm  = "310.733.171-61";
         boolean adminstrador = usuarioDao.existeCpf(adm);

@@ -11,7 +11,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
- *
+ * classe controladora de páginação de um datatable.
  * @author darkSniper
  */
 @Named

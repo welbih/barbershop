@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 import java.util.UUID;
 
 /**
- *
+ * classe com métodos estáticos para manipulação de senhas. 
  * @author darkSniper
  */
 public class Senhas {
@@ -25,6 +25,11 @@ public class Senhas {
         return UUID.randomUUID().toString().substring(0, tamanho).toUpperCase();
     }
     
+    /**
+     * metodo estático para criptografar uma senha
+     * @param senha a ser criptografada
+     * @return senha criptografada.
+     */
     public static String criptografar(String senha) {
         String senhaCriptografada = null;
         MessageDigest md;

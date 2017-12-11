@@ -19,7 +19,7 @@ import javax.persistence.InheritanceType;
 import org.hibernate.validator.constraints.Email;
 
 /**
- *
+ * classe modelo de pessoa classe Pai.
  * @author Sniper
  */
 @Entity
@@ -38,6 +38,7 @@ public abstract class Pessoa implements Serializable {
     @Column(length = 15)
     private String celular;
 
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Long getId() {
         return id;
     }
@@ -69,7 +70,8 @@ public abstract class Pessoa implements Serializable {
     public void setCelular(String celular) {
         this.celular = celular;
     }
-
+    //</editor-fold>
+    
     @Override
     public int hashCode() {
         int hash = 3;

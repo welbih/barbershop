@@ -13,7 +13,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * classe que valida se um Integer está igual ou menor que zero.
  * @author sniper
  */
 @FacesValidator("menorIgualAZero")

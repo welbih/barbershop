@@ -6,7 +6,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 /**
- * Conversor de strings.
+ * Converter de strings.
  * @author Sniper
  */
 @FacesConverter(forClass = String.class)

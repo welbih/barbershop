@@ -26,7 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * classe controladora associada as vendas do sistema.
  * @author darkSniper
  */
 @Named
@@ -87,6 +87,9 @@ public class VendaController implements Serializable{
     @Inject
     private AcessoController usuarioLogado;
     
+    /**
+     * construtor iniciando alguns atributos. 
+     */
     public VendaController() {
         setAtendimentos(new ArrayList<>());
         setBarbeiro(new Usuario());
@@ -94,6 +97,9 @@ public class VendaController implements Serializable{
         setBarbeiroAtendimentos(new ArrayList<>());
     }
         
+    /**
+     * busca as vendas de acordo com as datas informadas. 
+     */
     public void vendas() {
         setDataInicial(converterData(getDataI()));
         setDataFinal(converterData(getDataF()));
@@ -239,6 +245,9 @@ public class VendaController implements Serializable{
         }
     }
     
+    /**
+     * busca as vendas dos barbeiros.
+     */
     public void vendasBarbeiro() {
         setDataInicial(converterData(getDataI()));
         setDataFinal(converterData(getDataF()));
@@ -311,6 +320,11 @@ public class VendaController implements Serializable{
         }
     }
         
+    /**
+     * converte uma data do tipo string para o tipo LocalDate
+     * @param data a ser convertida 
+     * @return data convertida
+     */
     private LocalDate converterData(String data) {
         Locale BRAZIL = new Locale("pt", "BR");
         if(data != null && !data.isEmpty())
@@ -318,6 +332,7 @@ public class VendaController implements Serializable{
         return null;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public LocalDate getDataInicial() {
         return dataInicial;
     }
@@ -551,4 +566,5 @@ public class VendaController implements Serializable{
     public void setBarbeiroAtendimentos(List<Atendimento> barbeiroAtendimentos) {
         this.barbeiroAtendimentos = barbeiroAtendimentos;
     }
+    //</editor-fold>
 }

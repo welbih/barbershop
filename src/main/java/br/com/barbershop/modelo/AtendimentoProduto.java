@@ -7,20 +7,16 @@ package br.com.barbershop.modelo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
- *
+ * classe atendimentoProduto
  * @author Sniper
  */
 @Entity
@@ -40,6 +36,7 @@ public class AtendimentoProduto implements Serializable {
     @ManyToOne
     private Atendimento atendimento;
 
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Long getId() {
         return id;
     }
@@ -80,5 +77,5 @@ public class AtendimentoProduto implements Serializable {
     public void setValorCusto(BigDecimal valorCusto) {
         this.valorCusto = valorCusto;
     }
-    
+    //</editor-fold>
 }

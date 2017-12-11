@@ -6,7 +6,7 @@
 package br.com.barbershop.enums;
 
 /**
- *
+ * enum com os tipos de pagamento do sistema
  * @author Sniper
  */
 public enum TipoPagamento {
@@ -16,14 +16,26 @@ public enum TipoPagamento {
     
     private String nome;
 
+    /**
+     * construtor recebendo um nome 
+     * @param nome a ser atribuido.
+     */
     TipoPagamento(String nome) {
         setNome(nome);
     }
 
+    /**
+     * retorna um nome
+     * @return nome
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * atribui um nome
+     * @param nome a ser atribuido 
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }

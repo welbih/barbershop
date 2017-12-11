@@ -7,7 +7,6 @@ package br.com.barbershop.modelo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
- *
+ * classe associada ao produto
  * @author Sniper
  */
 @Entity
@@ -37,10 +36,7 @@ public class Produto implements Serializable {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE)
     private List<AtendimentoProduto> atendimentos;
     
-    public Produto() {
-        setAtendimentos(new ArrayList<>());
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Long getId() {
         return id;
     }
@@ -71,10 +67,5 @@ public class Produto implements Serializable {
     public void setValorVenda(BigDecimal valorVenda) {
         this.valorVenda = valorVenda;
     }
-    public List<AtendimentoProduto> getAtendimentos() {
-        return atendimentos;
-    }
-    public void setAtendimentos(List<AtendimentoProduto> atendimentos) {
-        this.atendimentos = atendimentos;
-    }
+    //</editor-fold>
 }

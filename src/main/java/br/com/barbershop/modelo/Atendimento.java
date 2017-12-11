@@ -23,7 +23,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
- *
+ * classe Atendimento
  * @author Sniper
  */
 @Entity
@@ -47,11 +47,15 @@ public class Atendimento implements Serializable {
     @OneToMany(mappedBy = "atendimento", cascade = CascadeType.REMOVE)
     private List<AtendimentoServico> servicos;
 
+    /**
+     * construtor inicializando listas.
+     */
     public Atendimento() {
         setProdutos(new ArrayList<>());
         setServicos(new ArrayList<>());
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Long getId() {
         return id;
     }
@@ -111,11 +115,19 @@ public class Atendimento implements Serializable {
     public void setTipoPagamento(TipoPagamento tipoPagamento) {
         this.tipoPagamento = tipoPagamento;
     }
-    
+    //</editor-fold>
+    /**
+     * adiciona os produtos a uma lista 
+     * @param atendimentoProduto a ser adicionado
+     */
     public void adicionarProduto(AtendimentoProduto atendimentoProduto) {
         this.produtos.add(atendimentoProduto);
     }
     
+    /**
+     * adiciona os serviços a uma lista
+     * @param atendimentoServico a ser adicionado
+     */
     public void adicionarServico(AtendimentoServico atendimentoServico) {
         this.servicos.add(atendimentoServico);
     }

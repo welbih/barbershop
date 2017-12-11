@@ -6,9 +6,7 @@
 package br.com.barbershop.converters;
 
 import br.com.barbershop.daos.ClienteDao;
-import br.com.barbershop.daos.ServicoDao;
 import br.com.barbershop.modelo.Cliente;
-import br.com.barbershop.modelo.Servico;
 import javax.enterprise.inject.spi.CDI;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -16,7 +14,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 /**
- *
+ * classe converter que converter um id em um cliente
  * @author darkSniper
  */
 @FacesConverter(forClass = Cliente.class)

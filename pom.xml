@@ -4,7 +4,7 @@
 
     <groupId>br.com.barbershop</groupId>
     <artifactId>barbershop</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
     <packaging>war</packaging>
 
     <name>barbershop</name>

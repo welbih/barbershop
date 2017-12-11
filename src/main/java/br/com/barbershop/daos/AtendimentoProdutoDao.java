@@ -6,7 +6,6 @@
 package br.com.barbershop.daos;
 
 import br.com.barbershop.modelo.AtendimentoProduto;
-import br.com.barbershop.modelo.Usuario;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
+ * classe associada ao produto realizado atendimento.
  * @author Sniper
  */
 @Stateless
@@ -25,6 +24,9 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
     @PersistenceContext
     private EntityManager manager;
     
+    /**
+     * construtor passando o tipo de classe para a classe pai.
+     */
     public AtendimentoProdutoDao() {
         super(AtendimentoProduto.class);
     }
@@ -34,10 +36,19 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
         return getManager();
     }
 
+    /**
+     * retorna um EntityManager
+     * @return EntityManager.
+     */
     public EntityManager getManager() {
         return manager;
     }
     
+    /**
+     * retorna uma lista de atendimentoProduto
+     * @param vendaId a ser buscado no banco
+     * @return lista de atendimentoProduto
+     */
     public List<AtendimentoProduto> porVenda(Long vendaId) {
         TypedQuery<AtendimentoProduto> query = getEntityManager().createQuery("select a from "
                 + "AtendimentoProduto a where a.atendimento.id = :vendaId"
@@ -47,6 +58,11 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
         return query.getResultList();
     }
     
+    /**
+     * Retorna o lucro dos produtos dado um id do atendimento
+     * @param idAtendimento a ser buscado
+     * @return valor do lucro dos produtos 
+     */
     public BigDecimal lucroProdutos(Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda - a.valorCusto) from AtendimentoProduto a "
                     + "where a.atendimento.id = :idAtendimento", BigDecimal.class)
@@ -55,6 +71,11 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
         return query.getSingleResult();
     }
     
+    /**
+     * retorna o valor total dos produtos dado um id do atendimento.
+     * @param idAtendimento a ser calculado.
+     * @return valor total dos produtos
+     */
     public BigDecimal valorTotalProdutos(Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda) from AtendimentoProduto a "
                     + "where a.atendimento.id = :idAtendimento", BigDecimal.class)
@@ -63,6 +84,11 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
         return query.getSingleResult();
     }
     
+    /**
+     * retorna o valor total dos custos de venda dos produtos 
+     * @param idAtendimento a ser calculado
+     * @return valor total dos custos dos produtos.
+     */
     public BigDecimal valorTotalCustoProdutos(Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorCusto) from AtendimentoProduto a "
                     + "where a.atendimento.id = :idAtendimento", BigDecimal.class)
@@ -71,6 +97,13 @@ public class AtendimentoProdutoDao extends AbstractDao<AtendimentoProduto>{
         return query.getSingleResult();
     }
     
+    /**
+     * retorna o lucro de acordo com a data inicial,final e id do atendimento.
+     * @param dataInicial a ser filtrada
+     * @param dataFinal a ser filtrada 
+     * @param idAtendimento a ser calculado
+     * @return valor total do lucro.
+     */
     public BigDecimal lucroPorDataEId(LocalDate dataInicial, LocalDate dataFinal, Long idAtendimento) {
         TypedQuery<BigDecimal> query = getEntityManager().createQuery("select sum(a.valorVenda - a.valorCusto) from AtendimentoProduto a "
                     + "where data between :dataInicial and :dataFinal and a.atendimento.id = :id", BigDecimal.class)

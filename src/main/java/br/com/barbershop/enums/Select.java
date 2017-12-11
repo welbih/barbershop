@@ -6,7 +6,7 @@
 package br.com.barbershop.enums;
 
 /**
- *
+ * enum com um select para compôr um um select na interface
  * @author Sniper
  */
 public enum Select {
@@ -14,14 +14,26 @@ public enum Select {
     
     private String nome;
 
+    /**
+     * construtor recebendo um nome
+     * @param nome a ser atribuído.
+     */
     Select(String nome) {
         setNome(nome);
     }
 
+    /**
+     * retorna um nome 
+     * @return nome
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * atribui o nome passado em parametro
+     * @param nome a ser atribuído. 
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }

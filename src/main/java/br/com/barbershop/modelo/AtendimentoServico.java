@@ -7,7 +7,6 @@ package br.com.barbershop.modelo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * classe associada ao AtendimentoServico
  * @author Sniper
  */
 @Entity
@@ -34,6 +33,7 @@ public class AtendimentoServico implements Serializable {
     @ManyToOne
     private Atendimento atendimento;
 
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Long getId() {
         return id;
     }
@@ -63,5 +63,6 @@ public class AtendimentoServico implements Serializable {
     }
     public void setServico(Servico servico) {
         this.servico = servico;
-    }    
+    }
+    //</editor-fold>
 }

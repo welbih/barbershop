@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- *
+ * Enum com os tipos de acesso do sistema.
  * @author Sniper
  */
 public enum Acesso {
@@ -23,10 +23,18 @@ public enum Acesso {
         setNome(nome);
     }
 
+    /**
+     * retorna o nome do acesso.
+     * @return 
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * atribui o nome de acesso.
+     * @param nome a ser atribuido 
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }

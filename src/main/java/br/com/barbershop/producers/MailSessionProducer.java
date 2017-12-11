@@ -11,13 +11,13 @@ import javax.enterprise.inject.Produces;
 import javax.mail.Session;
 
 /**
- *
+ * classe produtora para um Session
  * @author darkSniper
  */
 @ApplicationScoped
 public class MailSessionProducer
 {
     @Produces
-    @Resource(mappedName = "jboss/mail/barbershop2")
+    @Resource(mappedName = "jboss/mail/barbershop")
     private Session session;
 }

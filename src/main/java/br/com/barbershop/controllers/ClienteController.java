@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * classe controladora associada ao cliente. 
  * @author Sniper
  */
 @Named
@@ -31,11 +31,18 @@ public class ClienteController implements Serializable{
     @Inject
     private ClienteDao clienteDao;
     
+    /**
+     * construtor com alguns atributos sendo inicializados.
+     */
     public ClienteController() {
         setCliente(new Cliente());
         setClientes(new ArrayList<>());
     }
     
+    /**
+     * salva um novo cliente ou edita. 
+     * @return página a seguir no sistema.
+     */
     public String salvar() {
         if(getClienteDao().porCelular(getCliente().getCelular()) && getCliente().getId() == null) {
             JSF.addErrorMessage("O sistema já possui um cliente com esse número de celular.");
@@ -57,6 +64,11 @@ public class ClienteController implements Serializable{
         }
     }
     
+    /**
+     * remove um cliente.
+     * @param cliente a ser removido.
+     * @return Página a seguir no sistema.
+     */
     public String remover(Cliente cliente) {
         getClienteDao().remove(cliente);
         FacesContext.getCurrentInstance().getExternalContext()
@@ -65,7 +77,9 @@ public class ClienteController implements Serializable{
         return "clientes?faces-redirect=true";
     }
     
-    
+    /**
+     * filtra uma busca de clientes.
+     */
     public void filtrar()
     {
         if (getNome().isEmpty() && getCelular().isEmpty()) {
@@ -85,11 +99,20 @@ public class ClienteController implements Serializable{
         }
     }
     
+    /**
+     * verifica se os campos da busca de cliente
+     * foram preenchidos.
+     * @return true ou false.
+     */
     public boolean camposPreenchidos() {
         return true? getNome() != null 
                 || getCelular() != null : false;
     }
     
+    /**
+     * Seleciona um cliente para realizar o atendimento.
+     * @return página a seguir no sistema.
+     */
     public String selecionarCliente()
     {
         if(getCliente().getCelular() == null) {
@@ -113,7 +136,7 @@ public class ClienteController implements Serializable{
         return null;
     }
     
-    
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Cliente getCliente() {
         return cliente;
     }
@@ -154,5 +177,5 @@ public class ClienteController implements Serializable{
         this.celular = celular;
     }
     
-    
+    //</editor-fold>
 }

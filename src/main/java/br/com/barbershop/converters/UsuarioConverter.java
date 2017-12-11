@@ -14,7 +14,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 /**
- *
+ * converter um id em um usuário. 
  * @author darkSniper
  */
 @FacesConverter(forClass = Usuario.class)

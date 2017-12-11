@@ -14,7 +14,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * classe que válida se um valor do tipo BigDecimal é zero ou menor que zero.
  * @author sniper
  */
 @FacesValidator("valorNegativo")

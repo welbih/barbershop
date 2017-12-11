@@ -30,7 +30,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * controlador associado ao atendimento.
  * @author Sniper
  */
 @Named
@@ -69,6 +69,10 @@ public class AtendimentoController implements Serializable{
     @Inject
     private AcessoController usuarioLogado;
     
+    /**
+     * construtor iniciando alguns atributos 
+     * da classe.
+     */
     public AtendimentoController() {
         setAtendimento(new Atendimento());
         setAtendimentoProduto(new AtendimentoProduto());
@@ -84,6 +88,10 @@ public class AtendimentoController implements Serializable{
         setVendaProdutos(new ArrayList<>());
     }
     
+    /**
+     * salva um atendimento.
+     * @return página que o sistema deve seguir.
+     */
     public String salvar() {
         if(!contemProdutoEServico()) {
             JSF.addErrorMessage("O atendimento deve ter um serviço ou produto.");
@@ -106,6 +114,9 @@ public class AtendimentoController implements Serializable{
         return "selecionarCliente?faces-redirect=true";
     }
     
+    /**
+     * filtra a busca dos atendimentos.
+     */
     public void filtrar()
     {
         if (getNomeCliente().isEmpty() && getNomeUsuario().isEmpty()) {
@@ -124,40 +135,37 @@ public class AtendimentoController implements Serializable{
         }
     }
     
+    /**
+     * verifica se os campos de filtro foram preenchidos
+     * @return true ou false.
+     */
     public boolean camposPreenchidos() {
         return true? getNomeUsuario()!= null 
                 || getNomeCliente()!= null : false;
     }
-    
-    public String remover(Atendimento atendimento) {
-        getAtendimentoDao().remove(atendimento);
-        FacesContext.getCurrentInstance().getExternalContext()
-                .getFlash().setKeepMessages(true);
-        JSF.addSuccessMessage("Atendimento removido com sucesso.");
-        return "atendimentos?faces-redirect=true";
-    }
-    
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-    
+
+    /**
+     * adiciona uma linha para o adicionar mais um
+     * serviço
+     * @param posicao  
+     */
     public void adicionarServico(int posicao) {
         getMaisServicos().add(posicao, new HashMap<String, String>());
     }
 
+    /**
+     * exclui uma linha de serviço.
+     * @param servico 
+     */
     public void removerServico(HashMap<String, String> servico) {
         getMaisServicos().remove(servico);
         calculaProdutosEServicos();
     }
     
-    public List<Map<String, String>> getMaisServicos() {
-        return maisServicos;
-    }
-
-    public BigDecimal valorProduto(BigDecimal valor) {
-        return valor;
-    }
-    
+    /**
+     * valida os serviços e produtos
+     * @return true se a validão for ok, false se falhar.
+     */
     public boolean validarServicoEProduto() {
         boolean validacaoOk = true;
         List<String> quantidade = new ArrayList<>();
@@ -230,6 +238,10 @@ public class AtendimentoController implements Serializable{
         return validacaoOk;
     }
     
+    /**
+     * verifica se houve escolhe de produto ou serviço.
+     * @return true ou false.
+     */
     public boolean contemProdutoEServico() {
         for(Map<String, String> nome : getMaisProdutos()){
             for(Map<String, String> nomeS : getMaisServicos()){
@@ -240,6 +252,9 @@ public class AtendimentoController implements Serializable{
         return false;
     }
     
+    /**
+     * salva o produto e serviço no atendimento persistido.
+     */
     public void adicionarServicoEProdutoAoAtendimento() {
         for(Map<String, String> nome : getMaisServicos()){
             
@@ -285,14 +300,25 @@ public class AtendimentoController implements Serializable{
         }
     }
     
+    /**
+     * busca os serviços passado um id de atendimento
+     * @param idVenda 
+     */
     public void buscarServicos(Long idVenda) {
         setVendaServicos(getAtendimentoServicoDao().porVenda(idVenda));
     }
     
+    /**
+     * busca os produtos passado um id de atendimento.
+     * @param idVenda 
+     */
     public void buscarProdutos(Long idVenda) {
         setVendaProdutos(getAtendimentoProdutoDao().porVenda(idVenda));
     }
     
+    /**
+     * calcula o valor total dos serviços e produtos.
+     */
     public void calculaProdutosEServicos(){
         valorTotal = BigDecimal.ZERO;
         for(Map<String, String> nome : getMaisProdutos()){
@@ -320,15 +346,32 @@ public class AtendimentoController implements Serializable{
         }
     }
     
-    public void setMaisServicos(List<Map<String, String>> maisServicos) {
-        this.maisServicos = maisServicos;
-    }
+    /**
+     * adiciona uma linha de produto na interface.
+     * @param posicao 
+     */
     public void adicionarProduto(int posicao) {
         getMaisProdutos().add(posicao, new HashMap());
     }
+    /**
+     * remove uma linha da interface.
+     * @param produto 
+     */
     public void removerProduto(HashMap<String, String> produto) {
         getMaisProdutos().remove(produto);
         calculaProdutosEServicos();
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
+    public void setMaisServicos(List<Map<String, String>> maisServicos) {
+        this.maisServicos = maisServicos;
+    }
+    public List<Map<String, String>> getMaisServicos() {
+        return maisServicos;
+    }
+
+    public BigDecimal valorProduto(BigDecimal valor) {
+        return valor;
     }
 
     public List<Map<String, String>> getMaisProdutos() {
@@ -339,6 +382,9 @@ public class AtendimentoController implements Serializable{
         this.maisProdutos = maisProdutos;
     }
     
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
     public Atendimento getAtendimento() {
         return atendimento;
     }
@@ -436,4 +482,5 @@ public class AtendimentoController implements Serializable{
     public void setNomeUsuario(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
     }
+    //</editor-fold>
 }

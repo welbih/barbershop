@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * classe controladora associada ao usuário.
  * @author Sniper
  */
 @Named
@@ -35,11 +35,17 @@ public class UsuarioController implements Serializable{
     @Inject
     private UsuarioDao usuarioDao;
     
+    /**
+     * construtor iniciando alguns atributos.
+     */
     UsuarioController() {
         setUsuario(new Usuario());
         setUsuarios(new ArrayList<>());
     }
     
+    /**
+     * filtra os usuários de acordo com a busca.
+     */
     public void filtrar()
     {
         if (getNome() == null && getCpf() == null
@@ -61,6 +67,11 @@ public class UsuarioController implements Serializable{
         }
     }
     
+    /**
+     * salva um usuário ou edita.
+     * realiza uma validação.
+     * @return página a seguir no sistema
+     */
     public String salvar() {
         if(getUsuarioDao().existeEmail(getUsuario().getEmail()) && getUsuario().getId() == null) 
             JSF.addValidationError("O sistema já possui um usuário com esse E-mail.");
@@ -88,6 +99,11 @@ public class UsuarioController implements Serializable{
         }
     }
     
+    /**
+     * remove um usuário
+     * @param usuario a ser removido
+     * @return página a seguir no sistema.
+     */
     public String remover(Usuario usuario) {
         getUsuarioDao().remove(usuario);
         FacesContext.getCurrentInstance().getExternalContext()
@@ -96,12 +112,17 @@ public class UsuarioController implements Serializable{
         return "usuarios?faces-redirect=true";
     }
     
+    /**
+     * verifica se os campos foram preenchidos da busca
+     * @return true ou false.
+     */
     public boolean camposPreenchidos() {
         return true ? getNome() != null 
                     || getCpf() != null 
                     || getAcesso() != null : false;
     }
     
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Usuario getUsuario() {
         return usuario;
     }
@@ -161,7 +182,12 @@ public class UsuarioController implements Serializable{
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
+    //</editor-fold>
     
+    /**
+     * verifica se o usuário está sendo editado.
+     * @return true ou false.
+     */
     public boolean isEditando() {
         return getUsuario().getId() != null;
     }

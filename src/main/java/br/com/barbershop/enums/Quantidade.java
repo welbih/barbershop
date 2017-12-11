@@ -6,7 +6,7 @@
 package br.com.barbershop.enums;
 
 /**
- *
+ * enum com a enumeração de quantidade.
  * @author Sniper
  */
 public enum Quantidade {
@@ -19,10 +19,17 @@ public enum Quantidade {
         this.nome = nome;
     }
     
+    /**
+     * retorna o nome da quantidade
+     * @return nome
+     */
     public String getNome() {
         return nome;
     }
-
+    /**
+     * seta o nome 
+     * @param nome a ser atribuído. 
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
